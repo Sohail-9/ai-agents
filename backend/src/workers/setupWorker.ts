@@ -261,7 +261,7 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
     // 3. Persist sandbox + ai-agents.md (and seed lifecycle state)
     await Promise.all([
       workspaceService.updateSandboxId(workspaceId, sandboxId),
-      workspaceService.updateAI Agents(workspaceId, aiAgentsMd),
+      workspaceService.updateAiAgents(workspaceId, aiAgentsMd),
       workspaceService.linkSessionToWorkspace(sessionId, workspaceId),
       sandboxLifecycleService.markCreated(workspaceId),
     ]);

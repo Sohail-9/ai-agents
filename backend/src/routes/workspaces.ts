@@ -571,7 +571,7 @@ router.post("/resume/:id", async (req, res) => {
     const idea = config?.idea || workspace.summary || "Continued development";
     const framework = config?.framework || "Next.js";
 
-    // We recreate the AI Agents.md content if needed, but openAndInit also refreshes the timeout
+    // We recreate the ai-agents.md content if needed, but openAndInit also refreshes the timeout
     const result = await SandboxManager.getInstance().openAndInit({
       sandboxId: workspace.sandboxId,
       framework: framework,

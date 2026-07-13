@@ -279,12 +279,12 @@ User Answers + Framework Choice
 provider.buildContext()
     ├─ Injects: CONTEXT_BUILDER_PROMPT (or GITHUB_IMPORT_CONTEXT_PROMPT)
     ├─ Format: TOON (TYPE READY/UPDATE/IMPORT)
-    └─ Stores: AI Agents.md in workspace
+    └─ Stores: ai-agents.md in workspace
 ```
 
 ### 6.3 Follow-up Planning
 ```
-Existing AI Agents.md + New User Request
+Existing ai-agents.md + New User Request
     ↓
 provider.planUpdate()
     ├─ Injects: UPDATE_PLANNER_PROMPT (or GITHUB_IMPORT_UPDATE_PROMPT)
@@ -424,7 +424,7 @@ Returns: {model, maxTokens, costMultiplier}
             ┌─────────────────────────────────────┐
             │ CONTEXT BUILDING                    │
             │ Prompt: CONTEXT_BUILDER_PROMPT      │
-            │ Output: TOON plan (AI Agents.md)   │
+            │ Output: TOON plan (ai-agents.md)   │
             └─────────────────────────────────────┘
                              ↓
 ┌─────────────────────────────────────────────────────────────────┐

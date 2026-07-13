@@ -1,8 +1,8 @@
-# AI Agents Query → AI Agents.md Flow Analysis
+# AI Agents Query → ai-agents.md Flow Analysis
 
 ## Context
 
-This document maps the complete code path from a user query to the `AI Agents.md` file inside the E2B sandbox, and how that file is read before every agent loop iteration.
+This document maps the complete code path from a user query to the `ai-agents.md` file inside the E2B sandbox, and how that file is read before every agent loop iteration.
 
 ---
 
@@ -15,12 +15,12 @@ This document maps the complete code path from a user query to the `AI Agents.md
 | `backend/src/brain/prompts.ts` | `INTENT_SYSTEM_PROMPT` + `CONTEXT_BUILDER_PROMPT` |
 | `backend/src/brain/providers/qwen.ts` | `analyzeIntent()` + `buildContext()` LLM calls |
 | `backend/src/context/contextBuilder.ts` | Last-resort fallback — no LLM |
-| `backend/src/workers/setupWorker.ts` | BullMQ worker — builds and writes AI Agents.md |
+| `backend/src/workers/setupWorker.ts` | BullMQ worker — builds and writes ai-agents.md |
 | `backend/src/sandbox/sandboxManager.ts` | `openAndInit()` — `sandbox.files.write(...)` |
 | `backend/src/brain/planningUtils.ts` | `parseTodosFromContext()` + `buildUpdateContext()` |
 | `backend/src/workers/agentWorker.ts` | Runs `runOrchestrator()` per agent job |
-| `backend/src/brain/agentRunner.ts` | Main agent loop — instructs agent to read AI Agents.md |
-| `backend/src/brain/systemPrompt.ts` | System prompt construction — AI Agents.md read instructions |
+| `backend/src/brain/agentRunner.ts` | Main agent loop — instructs agent to read ai-agents.md |
+| `backend/src/brain/systemPrompt.ts` | System prompt construction — ai-agents.md read instructions |
 | `backend/src/brain/agents/orchestratorRunner.ts` | Calls `runAgent()` |
 
 ---
@@ -56,7 +56,7 @@ If both LLM calls fail: `ContextBuilder.build()` (`contextBuilder.ts:27-46`) ret
 
 ---
 
-## Phase 2: TOON Plan → AI Agents.md in Sandbox
+## Phase 2: TOON Plan → ai-agents.md in Sandbox
 
 ### 4. setupWorker picks up the job
 `setupWorker.ts:116-133` — `processSetupJob()`
@@ -65,24 +65,24 @@ If both LLM calls fail: `ContextBuilder.build()` (`contextBuilder.ts:27-46`) ret
 
 **Slow path** (`setupWorker.ts:183-208`): no cache → calls `ai.processPrompt()` again.
 
-### 5. Write AI Agents.md to sandbox
+### 5. Write ai-agents.md to sandbox
 `setupWorker.ts:228-235` calls `SandboxManager.openAndInit({ aiAgentsMd, ... })`
 
 Inside `sandboxManager.ts`:
 - Line 62-119: Creates or connects to E2B sandbox via `Sandbox.create()` / `Sandbox.connect()`
-- **Line 128**: `sandbox.files.write("/workspace/AI Agents.md", input.aiAgentsMd)`
+- **Line 128**: `sandbox.files.write("/workspace/ai-agents.md", input.aiAgentsMd)`
 - Line 158: `await Promise.all(fileWrites)` — write executed here
 
 ### 6. Persist to DB + parse todos
 `setupWorker.ts:260-265`:
-- `workspaceService.updateAI Agents(workspaceId, aiAgentsMd)` → saves to DB
+- `workspaceService.updateAiAgents(workspaceId, aiAgentsMd)` → saves to DB
 - `parseTodosFromContext(aiAgentsMd)` (`planningUtils.ts:43-186`) → parses `TODOS` section
 - `todoService.createTodosWithDeps(workspaceId, todos, 1)` → saves todos to DB
 - Enqueues **`agent-run`** BullMQ job
 
 ---
 
-## Phase 3: AI Agents.md Read Before Every Loop
+## Phase 3: ai-agents.md Read Before Every Loop
 
 ### 7. Agent job → orchestrator → agentRunner
 `agentWorker.ts:226` → `runOrchestrator(agentCtx, multiAgent, emit)` → `orchestratorRunner.ts` → `runAgent(agentCtx)`
@@ -97,23 +97,23 @@ const baseSystemPrompt =
     : getSystemPrompt({ framework, templateId, idea, workspaceConfig }));
 ```
 
-System prompt locations that instruct reading AI Agents.md:
-- `systemPrompt.ts:380-381` (prebuilt Next.js path): `"Start by reading /workspace/AI Agents.md"`
-- `systemPrompt.ts:441-442` (fallback path): `"First, check if AI Agents.md exists..."`
-- `systemPrompt.ts:555-556` (plan mode): `"cat /workspace/AI Agents.md if it exists"`
-- `systemPrompt.ts:290` (SHARED_RULES, all paths): `"AI Agents.md contains everything you need"`
+System prompt locations that instruct reading ai-agents.md:
+- `systemPrompt.ts:380-381` (prebuilt Next.js path): `"Start by reading /workspace/ai-agents.md"`
+- `systemPrompt.ts:441-442` (fallback path): `"First, check if ai-agents.md exists..."`
+- `systemPrompt.ts:555-556` (plan mode): `"cat /workspace/ai-agents.md if it exists"`
+- `systemPrompt.ts:290` (SHARED_RULES, all paths): `"ai-agents.md contains everything you need"`
 
 ### 9. Wave task message — per-loop injection
 `agentRunner.ts:733-734` inside `buildInitialWaveMessage()`, injected at line 1402-1406:
 ```
-"- Knowledge Base: Read /workspace/AI Agents.md ONCE for the full spec. Then go straight to writing code"
+"- Knowledge Base: Read /workspace/ai-agents.md ONCE for the full spec. Then go straight to writing code"
 ```
 This fires **at the start of every wave** (outer loop iteration).
 
-### 10. Agent reads AI Agents.md via tool call
-The agent issues a `read_file` tool call targeting `/workspace/AI Agents.md` in the sandbox.
+### 10. Agent reads ai-agents.md via tool call
+The agent issues a `read_file` tool call targeting `/workspace/ai-agents.md` in the sandbox.
 
-**AI Agents.md content is NEVER injected into the prompt.** The agent reads it from the sandbox filesystem each time it starts a new wave.
+**ai-agents.md content is NEVER injected into the prompt.** The agent reads it from the sandbox filesystem each time it starts a new wave.
 
 ---
 
@@ -122,7 +122,7 @@ The agent issues a `read_file` tool call targeting `/workspace/AI Agents.md` in 
 ```
 Outer wave loop: while (totalIterations < 120)       agentRunner.ts:1211
   ↓ pick next ready todo wave (1 todo per wave)       agentRunner.ts:1249
-  ↓ buildInitialWaveMessage() → injects AI Agents.md read instruction
+  ↓ buildInitialWaveMessage() → injects ai-agents.md read instruction
   ↓
   Inner iteration loop: for (0..20)                   agentRunner.ts:1421
     ↓ call LLM with current message history
@@ -140,11 +140,11 @@ For a workspace **with an existing sandbox**:
 - This is passed to `ai.planUpdate()` for re-planning
 - Updated todos created in DB
 - New `agent-run` job enqueued
-- Agent reads `/workspace/AI Agents.md` from sandbox as normal
+- Agent reads `/workspace/ai-agents.md` from sandbox as normal
 
 ---
 
-## TOON Format (AI Agents.md)
+## TOON Format (ai-agents.md)
 
 ```
 TYPE READY
@@ -193,8 +193,8 @@ WSManager USER_REQUEST (WSManager.ts:728)
     │
     │   setupWorker.ts:processSetupJob()
     │   └── SandboxManager.openAndInit()
-    │       └── sandbox.files.write("/workspace/AI Agents.md") (sandboxManager.ts:128)
-    │   └── workspaceService.updateAI Agents() → saves to DB
+    │       └── sandbox.files.write("/workspace/ai-agents.md") (sandboxManager.ts:128)
+    │   └── workspaceService.updateAiAgents() → saves to DB
     │   └── parseTodosFromContext() → DB todos
     │
     │   enqueue agent-run job (BullMQ)
@@ -209,11 +209,11 @@ WSManager USER_REQUEST (WSManager.ts:728)
 agentWorker.ts → runOrchestrator() → runAgent() (agentRunner.ts)
     │
     ├─ Build system prompt: getSystemPrompt() (systemPrompt.ts)
-    │   └── includes "read /workspace/AI Agents.md" instructions
+    │   └── includes "read /workspace/ai-agents.md" instructions
     │
     └─ Wave loop (max 120 iterations)
-        └─ buildInitialWaveMessage() → "Read /workspace/AI Agents.md ONCE"
+        └─ buildInitialWaveMessage() → "Read /workspace/ai-agents.md ONCE"
         └─ Inner loop (max 20 iterations per wave)
-            └─ Agent issues read_file("/workspace/AI Agents.md") tool call
+            └─ Agent issues read_file("/workspace/ai-agents.md") tool call
             └─ Agent implements todo based on spec
 ```

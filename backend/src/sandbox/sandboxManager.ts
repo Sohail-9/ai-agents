@@ -1,7 +1,7 @@
 /**
  * @module sandboxManager
  * @description Singleton that opens an e2b sandbox with the correct template
- *              based on the selected framework and writes the AI Agents.md
+ *              based on the selected framework and writes the ai-agents.md
  *              context file into it.
  *
  * The sandbox uses lifecycle: { onTimeout: 'pause' }
@@ -125,7 +125,7 @@ export class SandboxManager {
     const fileWrites: Promise<any>[] = [];
 
     if (input.aiAgentsMd) {
-      fileWrites.push(sandbox.files.write("/workspace/AI Agents.md", input.aiAgentsMd));
+      fileWrites.push(sandbox.files.write("/workspace/ai-agents.md", input.aiAgentsMd));
     }
 
     if (input.databaseUrl) {

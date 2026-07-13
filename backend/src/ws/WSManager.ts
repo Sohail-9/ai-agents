@@ -1702,8 +1702,8 @@ export class WebSocketManager {
   /**
    * New workspace setup flow (workspace already exists in DB from REST):
    *   1. Run AI analysis on the user's idea
-   *   2. Build context (AI Agents.md)
-   *   3. Create e2b sandbox → write AI Agents.md
+   *   2. Build context (ai-agents.md)
+   *   3. Create e2b sandbox → write ai-agents.md
    *   4. Update workspace in DB with sandboxId + aiAgentsMd
    *   5. Create todos
    *   6. Auto-trigger agent run
@@ -1815,7 +1815,7 @@ export class WebSocketManager {
         // run concurrently
         await Promise.all([
           workspaceService.updateSandboxId(workspaceId, sandboxId),
-          workspaceService.updateAI Agents(workspaceId, aiAgentsMd),
+          workspaceService.updateAiAgents(workspaceId, aiAgentsMd),
           workspaceService.linkSessionToWorkspace(ctx.sessionId, workspaceId),
         ]);
 

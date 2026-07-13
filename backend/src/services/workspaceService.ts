@@ -178,14 +178,14 @@ export const workspaceService = {
   },
 
   // Update AI Agents (at end of session (agent updates memory))
-  updateAI Agents: async (id: string, aiAgentsMd: string) => {
+  updateAiAgents: async (id: string, aiAgentsMd: string) => {
     try {
       return await prisma.workspace.update({
         where: { id },
         data: { aiAgentsMd },
       });
     } catch (error) {
-      console.error('[Prisma] updateAI Agents failed:', error);
+      console.error('[Prisma] updateAiAgents failed:', error);
       throw error;
     }
   },

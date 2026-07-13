@@ -529,7 +529,7 @@ const staticBlock = buildMemoryBlock({
    ```
 
 2. **Write Context Files**
-   - AI Agents.md (project context)
+   - ai-agents.md (project context)
    - .env files (environment variables)
    - Database URL (if applicable)
 
@@ -1006,7 +1006,7 @@ sandbox = await Sandbox.create(templateId, {
 const fileWrites: Promise<any>[] = [];
 
 if (input.aiAgentsMd) {
-  fileWrites.push(sandbox.files.write("/workspace/AI Agents.md", input.aiAgentsMd));
+  fileWrites.push(sandbox.files.write("/workspace/ai-agents.md", input.aiAgentsMd));
   // Small text file: ~20-50ms
 }
 
@@ -1024,7 +1024,7 @@ await Promise.all(fileWrites);
 
 | File | Size | Time |
 |------|------|------|
-| AI Agents.md | 1-5KB | 20-50ms |
+| ai-agents.md | 1-5KB | 20-50ms |
 | .env | 100B-1KB | 10-30ms |
 | Large codebase setup | 100KB+ | 200-500ms |
 

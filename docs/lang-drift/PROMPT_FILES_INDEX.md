@@ -262,7 +262,7 @@ const response = await llm.chat.completions.create({
 
 | Line(s) | Content | Purpose |
 |---|---|---|
-| 27-46 | `build(input: PollAnswers)` | Creates AI Agents.md template |
+| 27-46 | `build(input: PollAnswers)` | Creates ai-agents.md template |
 | 29-44 | String building | Project metadata formatting |
 
 ---

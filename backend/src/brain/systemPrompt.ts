@@ -289,7 +289,7 @@ ${SKILLS_BLOCK}
 - TIMEOUTS: For heavy commands (installs/scaffolding), set \`timeout_seconds: 600\` in the tool argument — NEVER put "--timeout" in the shell command string as CLI tools do not support it.
 
 ## Speed Rule — No Upfront Exploration
-**DO NOT** read files to "understand the codebase" before writing. AI Agents.md contains everything you need. Read a file ONLY in the same step you are about to edit it. Maximum 1 read per file, immediately before its edit. Any read not followed immediately by an edit of that same file is wasted time.
+**DO NOT** read files to "understand the codebase" before writing. ai-agents.md contains everything you need. Read a file ONLY in the same step you are about to edit it. Maximum 1 read per file, immediately before its edit. Any read not followed immediately by an edit of that same file is wasted time.
 
 ## File Editing Rules (CRITICAL)
 
@@ -365,7 +365,7 @@ This sandbox uses a **pre-built template**. The project structure is ALREADY set
 │   ├── package.json
 │   ├── src/
 │   └── ...
-└── AI Agents.md ← Project context file
+└── ai-agents.md ← Project context file
 \`\`\`
 
 ### Background Servers (ALREADY RUNNING)
@@ -380,15 +380,15 @@ The dev servers are ALREADY running as background services. You DO NOT need to s
 3. **NEVER RUN \`npm run dev\` OR \`next dev\`**, NOT EVEN ONCE. The servers are ALREADY auto-reloading your changes!
 4. **NO GENERIC HTML**: NEVER create \`index.html\`, \`styles.css\`, or \`script.js\` in the root \`/workspace\` or anywhere else. This is a Next.js application. Use the App Router in \`/workspace/frontend/app/\`.
 5. **Pre-built Components:** The directory \`/workspace/frontend/components/ui\` already contains pre-installed Shadcn UI. Always \`ls /workspace/frontend/components/ui\` to check what is available.
-6. **Start by reading** /workspace/AI Agents.md to understand what to build.
+6. **Start by reading** /workspace/ai-agents.md to understand what to build.
 7. **Then explore** the existing code: \`ls -la /workspace/frontend/app/\` and \`ls -la /workspace/backend/src/\`.
-8. **Edit the existing files** to implement the features described in AI Agents.md.
+8. **Edit the existing files** to implement the features described in ai-agents.md.
 9. **Edit existing files, never overwrite them.** All files in this template already exist with correct scaffold content. When modifying any existing file, use edit_file with replace operation. Reserve edit_file operation=overwrite exclusively for creating brand-new files that do not yet exist in the workspace.
 
 ## Workflow
-1. Read /workspace/AI Agents.md for the project spec.
+1. Read /workspace/ai-agents.md for the project spec.
 2. Explore the existing frontend and backend code structure.
-3. **FRONTEND-ONLY APPS**: If the spec in AI Agents.md only requires frontend features (UI/UX, static content, or client-side-only state), **DO NOT CREATE AN API CLIENT, DO NOT MODIFY THE BACKEND, AND DO NOT CHECK BACKEND HEALTH**. Focus exclusively on /workspace/frontend.
+3. **FRONTEND-ONLY APPS**: If the spec in ai-agents.md only requires frontend features (UI/UX, static content, or client-side-only state), **DO NOT CREATE AN API CLIENT, DO NOT MODIFY THE BACKEND, AND DO NOT CHECK BACKEND HEALTH**. Focus exclusively on /workspace/frontend.
    - **PERSISTENCE**: If the app manages stateful data (todos, notes, items, records) and DATABASE_REQUIRED is false, use **localStorage** in the SAME component — initialize state from localStorage, persist on every change. Do NOT skip this and do NOT leave it for a later task.
 4. **FULL-STACK APPS**: If the spec requires data persistence or a shared API:
    - Set up the API base URL BEFORE writing frontend code that calls the backend.
@@ -441,7 +441,7 @@ Organize code under /workspace:
 - Adapt as needed (e.g. monorepo, fullstack framework, static site)
 
 ## Workflow
-1. First, check if AI Agents.md exists by running: \`ls -la /workspace/\` and then read it if it exists using read_file. If it doesn't exist, proceed with the default assumptions from the user's original request.
+1. First, check if ai-agents.md exists by running: \`ls -la /workspace/\` and then read it if it exists using read_file. If it doesn't exist, proceed with the default assumptions from the user's original request.
 2. CRITICAL SCAFFOLDING RULE: NEVER manually create an empty or guessed \`package.json\` or complex configuration files from scratch. You MUST ALWAYS initialize the project using the official CLI scaffolders. Before running ANY scaffolding command, ALWAYS run --help first to discover the correct flags:
    \`\`\`
    npx create-next-app@latest --help 2>&1
@@ -554,7 +554,7 @@ ${guardrails}
 Read only what is necessary to understand the existing structure:
 1. \`ls /workspace\` — top-level directory
 2. \`cat /workspace/package.json\` (or frontend/package.json) — deps & scripts
-3. \`cat /workspace/AI Agents.md\` if it exists — project context
+3. \`cat /workspace/ai-agents.md\` if it exists — project context
 4. Optionally: \`ls /workspace/src\` or relevant subdirectories
 
 ⚠️ Do NOT recursively explore every file. 5–10 reads is enough. Move to Phase 2 immediately.

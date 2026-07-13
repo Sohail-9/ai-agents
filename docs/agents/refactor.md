@@ -482,7 +482,7 @@ async function processBootstrapJob(job: Job<BootstrapPayload>) {
       ContextBuilder.getInstance().build({ idea: message, framework, language: "TypeScript" });
     
     // Store context in workspace
-    await workspaceService.updateAI Agents(finalWorkspaceId, aiAgentsMd);
+    await workspaceService.updateAiAgents(finalWorkspaceId, aiAgentsMd);
     
     emit("BOOTSTRAP_STATUS", { message: "Preparing sandbox and agent..." });
     
@@ -575,7 +575,7 @@ async function processSandboxPrepJob(job: Job<SandboxPrepPayload>) {
     
     // Write files in parallel
     await Promise.all([
-      sandbox.files.write("/workspace/AI Agents.md", aiAgentsMd),
+      sandbox.files.write("/workspace/ai-agents.md", aiAgentsMd),
       // Other parallel inits
     ]);
     
@@ -829,7 +829,7 @@ async function processPostProcessingJob(job: Job<PostProcessingPayload>) {
         if (ws?.aiAgentsMd) {
           const updated = await updateProjectContext(ws.aiAgentsMd, summary || '', modifiedFiles, createInternalLLMCall());
           if (updated) {
-            await workspaceService.updateAI Agents(workspaceId, updated);
+            await workspaceService.updateAiAgents(workspaceId, updated);
           }
         }
       } catch (err) {

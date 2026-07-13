@@ -465,7 +465,7 @@ async function processAgentJob(job: Job<AgentJobPayload>) {
                 llmCall,
               );
               if (updated) {
-                await workspaceService.updateAI Agents(workspaceId, updated);
+                await workspaceService.updateAiAgents(workspaceId, updated);
                 console.log(`[AgentWorker] Updated aiAgentsMd for workspace ${workspaceId}`);
               }
             }

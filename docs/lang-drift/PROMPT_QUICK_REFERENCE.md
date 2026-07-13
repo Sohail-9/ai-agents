@@ -56,7 +56,7 @@ backend/src/
 │   └── conversationSummarizer.ts
 │
 ├── context/
-│   └── contextBuilder.ts          ← BUILDS AI Agents.md
+│   └── contextBuilder.ts          ← BUILDS ai-agents.md
 │
 └── services/
     └── providerResolver.ts        ← PROVIDER SELECTION
@@ -78,7 +78,7 @@ analyzeIntent() [providers/openai.ts:67]
 
 buildContext() [providers/openai.ts:134]
   Injects: CONTEXT_BUILDER_PROMPT
-  Output: TOON plan → AI Agents.md
+  Output: TOON plan → ai-agents.md
 ```
 
 ### PHASE 2: Agent Execution

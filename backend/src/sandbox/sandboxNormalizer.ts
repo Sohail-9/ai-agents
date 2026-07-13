@@ -31,7 +31,7 @@ export class SandboxNormalizer {
       const result = await sandbox.commands.run(
         `U=$(whoami); O=$(stat -c %U /workspace 2>/dev/null || stat -f %Su /workspace 2>/dev/null); ` +
         `if [ "$U" = "$O" ]; then echo "ok:$U"; else ` +
-        `sudo chown "$U:$U" /workspace /workspace/frontend /workspace/backend /workspace/AI Agents.md 2>/dev/null; ` +
+        `sudo chown "$U:$U" /workspace /workspace/frontend /workspace/backend /workspace/ai-agents.md 2>/dev/null; ` +
         `sudo chown -R "$U:$U" /workspace/frontend/app /workspace/frontend/components /workspace/frontend/lib /workspace/frontend/public /workspace/frontend/.next 2>/dev/null; ` +
         `sudo chown -R "$U:$U" /workspace/backend/src /workspace/backend/prisma 2>/dev/null; ` +
         `echo "fixed:$U"; fi; ` +

@@ -189,7 +189,7 @@ T+1500-6500ms: SandboxManager.openAndInit()
           
 T+6500-6600ms: workspaceService.updateSandboxId() — DB update
           
-T+6600-6700ms: workspaceService.updateAI Agents() — DB update
+T+6600-6700ms: workspaceService.updateAiAgents() — DB update
           
 T+6700-6800ms: workspaceService.linkSessionToWorkspace() — DB update
           
