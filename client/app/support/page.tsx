@@ -24,13 +24,13 @@ interface SupportCase {
 
 const FAQS = [
   {
-    q: "What makes Prettiflow different from others",
-    a: "Prettiflow doesn't just generate code or prototypes. We build, run, and evolve real, live software systems in production from day one. No setup, no DevOps, no drama.",
+    q: "What makes AI Agents different from others",
+    a: "AI Agents doesn't just generate code or prototypes. We build, run, and evolve real, live software systems in production from day one. No setup, no DevOps, no drama.",
     defaultOpen: true,
   },
   {
-    q: "What makes Prettiflow different from others",
-    a: "Prettiflow doesn't just generate code or prototypes. We build, run, and evolve real, live software systems in production from day one. No setup, no DevOps, no drama.",
+    q: "What makes AI Agents different from others",
+    a: "AI Agents doesn't just generate code or prototypes. We build, run, and evolve real, live software systems in production from day one. No setup, no DevOps, no drama.",
     defaultOpen: false,
   },
 ];

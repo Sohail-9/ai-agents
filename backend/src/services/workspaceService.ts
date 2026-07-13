@@ -51,12 +51,12 @@ export const workspaceService = {
     framework: string;
     language: string;
     database: string;
-    prettiflowMd?: string;
+    aiAgentsMd?: string;
     summary: string;
     sandboxId?: string;
     status?: 'GENERATING' | 'READY' | 'ACTIVE' | 'ARCHIVED' | 'FAILED';
   }) => {
-    const { userId, name, idea, framework, language, database, prettiflowMd, summary, sandboxId, status } = workspaceData;
+    const { userId, name, idea, framework, language, database, aiAgentsMd, summary, sandboxId, status } = workspaceData;
 
     try {
       // Ensure the user exists before creating the workspace
@@ -79,7 +79,7 @@ export const workspaceService = {
             data: {
               name: candidateName,
               userId,
-              prettiflowMd: prettiflowMd || '',
+              aiAgentsMd: aiAgentsMd || '',
               summary,
               sandboxId: sandboxId || null,
               status: status || (sandboxId ? 'ACTIVE' : 'ACTIVE'),
@@ -177,15 +177,15 @@ export const workspaceService = {
     }
   },
 
-  // Update Prettiflow (at end of session (agent updates memory))
-  updatePrettiflow: async (id: string, prettiflowMd: string) => {
+  // Update AI Agents (at end of session (agent updates memory))
+  updateAI Agents: async (id: string, aiAgentsMd: string) => {
     try {
       return await prisma.workspace.update({
         where: { id },
-        data: { prettiflowMd },
+        data: { aiAgentsMd },
       });
     } catch (error) {
-      console.error('[Prisma] updatePrettiflow failed:', error);
+      console.error('[Prisma] updateAI Agents failed:', error);
       throw error;
     }
   },

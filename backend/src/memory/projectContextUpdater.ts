@@ -1,7 +1,7 @@
 /**
- * Updates prettiflowMd (project context) after each successful run.
+ * Updates aiAgentsMd (project context) after each successful run.
  * Returns the updated markdown string, or null on failure
- * (caller keeps existing prettiflowMd unchanged).
+ * (caller keeps existing aiAgentsMd unchanged).
  */
 export async function updateProjectContext(
   currentMd: string,
@@ -36,7 +36,7 @@ ${modifiedFiles.length > 0 ? modifiedFiles.join('\n') : '(none)'}`;
     if (!updated || updated.length < 20) return null;
     return updated.trim();
   } catch (err) {
-    console.warn('[ProjectContextUpdater] Failed to update prettiflowMd:', (err as Error).message);
+    console.warn('[ProjectContextUpdater] Failed to update aiAgentsMd:', (err as Error).message);
     return null;
   }
 }

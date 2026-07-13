@@ -8,7 +8,7 @@ export function logOpsEvent(
 ): void {
   const payload: Record<string, unknown> = {
     ts: new Date().toISOString(),
-    svc: "prettiflow-core",
+    svc: "ai-agents-core",
     event,
   };
   for (const [k, v] of Object.entries(fields)) {

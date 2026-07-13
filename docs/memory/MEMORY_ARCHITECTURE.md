@@ -1,11 +1,11 @@
-# PrettiFlow Memory Architecture — 10x Proposal
+# AI Agents Memory Architecture — 10x Proposal
 
 ## Current State (What We Have)
 
 | Layer | Implementation | Limitation |
 |-------|---------------|------------|
 | System prompt | Static framework-specific text (~500 lines) | Never updated with what agent actually built |
-| prettiflowMd | Generated once at setup, stored in DB | Static — never evolves as codebase changes |
+| aiAgentsMd | Generated once at setup, stored in DB | Static — never evolves as codebase changes |
 | Message history | Last 50 messages, hard-trimmed at 70k tokens | No summarization — middle context is lost entirely |
 | Workspace memory | Flat JSON blob (ports only) | No structured categories, no semantic data |
 | Agent runs | Last 3 run summaries as markdown | No error pattern learning, no cross-run insights |
@@ -182,9 +182,9 @@ interface ErrorPattern {
 
 ---
 
-### Phase 4: Living prettiflowMd (Self-Updating Project Context)
+### Phase 4: Living aiAgentsMd (Self-Updating Project Context)
 
-**Problem**: `prettiflowMd` is generated once during workspace setup and never updated. After 10 agent runs, the project looks nothing like the original description.
+**Problem**: `aiAgentsMd` is generated once during workspace setup and never updated. After 10 agent runs, the project looks nothing like the original description.
 
 **Solution**: After each successful run, have the agent update the project context with what it actually built.
 
@@ -192,17 +192,17 @@ interface ErrorPattern {
 // backend/src/memory/projectContextUpdater.ts
 
 // Called at end of successful agent run
-// Reads current prettiflowMd from DB
+// Reads current aiAgentsMd from DB
 // Reads the list of modified files from the run
-// Generates an updated prettiflowMd that reflects current state
-// Stores back to workspace.prettiflowMd
+// Generates an updated aiAgentsMd that reflects current state
+// Stores back to workspace.aiAgentsMd
 ```
 
 **Implementation**: Add a lightweight LLM call at the end of successful runs:
 
 ```
 Given the current project description:
-{current prettiflowMd}
+{current aiAgentsMd}
 
 And the changes made in this run:
 - Modified files: {modifiedFiles}
@@ -256,7 +256,7 @@ All phases are **additive** — no breaking changes to existing code.
 | Phase 1: Summarization | 2-3 days | High — preserves lost context | None |
 | Phase 2: Structured memory | 2-3 days | High — organized knowledge | Schema migration |
 | Phase 3: Error learning | 1-2 days | High — prevents repeat failures | Phase 2 |
-| Phase 4: Living prettiflowMd | 1-2 days | Medium — keeps context fresh | None |
+| Phase 4: Living aiAgentsMd | 1-2 days | Medium — keeps context fresh | None |
 | Phase 5: Smart retrieval | 3-4 days | Medium — scales memory | Phase 2 |
 
 **Recommended order**: Phase 1 → Phase 4 → Phase 2 → Phase 3 → Phase 5
@@ -286,8 +286,8 @@ backend/src/memory/
 | Hard truncation at 70k tokens | Summarize-then-trim | Middle context preserved instead of lost |
 | Flat JSON blob (ports only) | 5 typed memory categories with TTL | Structured knowledge that grows smarter |
 | No error learning | Error-resolution pattern database | Same mistake never happens twice |
-| Static prettiflowMd | Self-updating project context | Context stays accurate across runs |
+| Static aiAgentsMd | Self-updating project context | Context stays accurate across runs |
 | Everything-or-nothing context | Relevance-scored retrieval | Right context for the right task |
 | ~120 tokens of memory | ~2000 tokens of high-value memory | 16x more useful context in fewer tokens |
 
-The core insight from industry research: **the best memory systems don't just store more — they store smarter**. Devin wins with massive context windows. MemGPT wins with OS-style paging. Mem0 wins with typed memory + TTL. We can combine the best of each within PrettiFlow's existing architecture without adding any new infrastructure (no vector DB, no Redis changes, no new services).
+The core insight from industry research: **the best memory systems don't just store more — they store smarter**. Devin wins with massive context windows. MemGPT wins with OS-style paging. Mem0 wins with typed memory + TTL. We can combine the best of each within AI Agents's existing architecture without adding any new infrastructure (no vector DB, no Redis changes, no new services).

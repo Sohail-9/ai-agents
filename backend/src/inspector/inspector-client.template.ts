@@ -4,7 +4,7 @@
 
 export const INSPECTOR_CLIENT_TEMPLATE = String.raw`
 /**
- * Prettiflow inspector client. Runs inside the user's E2B sandbox iframe.
+ * AI Agents inspector client. Runs inside the user's E2B sandbox iframe.
  *
  * The host writes this file with two placeholders replaced at write time:
  *   __PF_PARENT_ORIGIN__   — the parent app origin (exact-equality check)

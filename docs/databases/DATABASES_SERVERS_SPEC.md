@@ -49,7 +49,7 @@ Uses `PageShell` (sidebar included). Full-width scrollable content area.
 │   0.03/0.5 GB   2/100           98.5%          8                 │
 │                                                                  │
 ├──────────────────────────────────────────────────────────────────┤
-│  postgresql://****:****@prettiflow-db.postgres...  [copy] [eye]  │
+│  postgresql://****:****@ai-agents-db.postgres...  [copy] [eye]  │
 ├──────────────────────────────────────────────────────────────────┤
 │  Tables:  [users]  [workspaces]  [messages]  [requests]  ...     │
 ├──────────────────────────────────────────────────────────────────┤
@@ -211,11 +211,11 @@ A fullstack workspace appears as 2 rows (FRONTEND + BACKEND).
 ```
 [dot] workspace-name                       2h ago
       FRONTEND  •  running
-      app.prettiflow.com
+      app.ai-agents.com
 
 [dot] workspace-name                       2h ago
       BACKEND   •  running
-      api.prettiflow.com
+      api.ai-agents.com
 
 [dot] shop-app                             5m ago
       FRONTEND  •  building
@@ -261,7 +261,7 @@ Centered, dimmed.
 **Detail Header:**
 ```
 workspace-name
-FRONTEND  •  running            [Visit app.prettiflow.com ↗]
+FRONTEND  •  running            [Visit app.ai-agents.com ↗]
 ```
 
 **Tab bar:** `Overview` | `Logs` | `Deployment Logs`
@@ -341,7 +341,7 @@ Click a row → Sub-view B
 [preview screenshot / failed placeholder]
 
 Created: Jun 9 14:30     Status: Ready        Duration: 3m 12s
-URL: app.prettiflow.com  Environment: Prod    Type: FRONTEND
+URL: app.ai-agents.com  Environment: Prod    Type: FRONTEND
 
 ─── Build Log ──────────────────────────────────────
 Time        Status   Messages

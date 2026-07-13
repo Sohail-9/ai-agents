@@ -1,4 +1,4 @@
-# Auth Migration Plan — Clerk → PrettiFlow Custom Auth Service
+# Auth Migration Plan — Clerk → AI Agents Custom Auth Service
 
 **Goal:** replace Clerk with the custom auth service described in [`auth-api.md`](./auth-api.md),
 keeping the rest of the app (workspaces, credits, FKs, WS) working.
@@ -60,10 +60,10 @@ These materially change the plan. Stated assumptions used below in **bold**.
 1. **Is the auth service a separate deployable, or merged into this Express backend?**
    `auth-api.md` base URL is `localhost:8000`; routes mount at `/api/auth`. The current backend
    also serves `/api`. → **Assumption: auth service is a SEPARATE service** at its own origin;
-   PrettiFlow backend verifies its tokens via JWKS. (If merged, mount the auth router and skip
+   AI Agents backend verifies its tokens via JWKS. (If merged, mount the auth router and skip
    CORS/cookie-domain work.)
-2. **Do auth service and PrettiFlow share the same Postgres `User` table?**
-   → **Assumption: separate DBs.** PrettiFlow keeps its own `User` table and lazily provisions
+2. **Do auth service and AI Agents share the same Postgres `User` table?**
+   → **Assumption: separate DBs.** AI Agents keeps its own `User` table and lazily provisions
    from JWT claims / `GET /me`. (If shared, drop §3.3 provisioning and just read.)
 3. **Existing production users to migrate, or greenfield?**
    → **Assumption: small/dev userbase, acceptable to re-register.** If real prod users exist, do

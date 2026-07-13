@@ -8,7 +8,7 @@ import { redisConnection } from "../queue/connection";
 /**
  * CLI LLM gateway (Phases 1, 3, 4).
  *
- * The PrettiFlow CLI no longer calls the provider directly. Instead its kosong
+ * The AI Agents CLI no longer calls the provider directly. Instead its kosong
  * provider is pointed at this endpoint as an Anthropic-compatible base URL, so
  * the Anthropic SDK on the CLI hits `POST {baseURL}/v1/messages` here. We inject
  * the real Azure Claude key server-side (never shipped to the client), forward
@@ -265,7 +265,7 @@ async function rollWindow(
 
 // POST /api/cli/llm/v1/messages — Anthropic-compatible passthrough.
 router.post("/v1/messages", async (req: Request, res: Response) => {
-  // Gateway is always on: PrettiFlow routes the CLI through the server gateway by
+  // Gateway is always on: AI Agents routes the CLI through the server gateway by
   // design, so this is hardcoded enabled (no env flag). Opt out explicitly with
   // CLI_LLM_DISABLED=1 if a kill-switch is ever needed.
   if (process.env.CLI_LLM_DISABLED) {

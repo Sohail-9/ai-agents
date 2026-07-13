@@ -1,4 +1,4 @@
-# PrettiFlow End-to-End Execution Flow: Technical Report
+# AI Agents End-to-End Execution Flow: Technical Report
 
 **Date Generated:** 2026-05-09  
 **Scope:** Complete execution path from user input through project delivery  
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-PrettiFlow is a full-stack AI agent system that builds complete web applications from user prompts. The system operates as a distributed pipeline:
+AI Agents is a full-stack AI agent system that builds complete web applications from user prompts. The system operates as a distributed pipeline:
 
 1. **Frontend** (Next.js) captures user input via WebSocket
 2. **Backend** (Express + Node.js) routes requests through a job queue system
@@ -529,7 +529,7 @@ const staticBlock = buildMemoryBlock({
    ```
 
 2. **Write Context Files**
-   - Prettiflow.md (project context)
+   - AI Agents.md (project context)
    - .env files (environment variables)
    - Database URL (if applicable)
 
@@ -1005,8 +1005,8 @@ sandbox = await Sandbox.create(templateId, {
 ```typescript
 const fileWrites: Promise<any>[] = [];
 
-if (input.prettiflowMd) {
-  fileWrites.push(sandbox.files.write("/workspace/Prettiflow.md", input.prettiflowMd));
+if (input.aiAgentsMd) {
+  fileWrites.push(sandbox.files.write("/workspace/AI Agents.md", input.aiAgentsMd));
   // Small text file: ~20-50ms
 }
 
@@ -1024,7 +1024,7 @@ await Promise.all(fileWrites);
 
 | File | Size | Time |
 |------|------|------|
-| Prettiflow.md | 1-5KB | 20-50ms |
+| AI Agents.md | 1-5KB | 20-50ms |
 | .env | 100B-1KB | 10-30ms |
 | Large codebase setup | 100KB+ | 200-500ms |
 
@@ -1991,7 +1991,7 @@ FRONTEND_URL=http://localhost:3000
 E2B_SANDBOX_ID=sandbox_id_if_running_in_e2b
 
 # Database
-DATABASE_URL=postgresql://user:pass@localhost/prettiflow
+DATABASE_URL=postgresql://user:pass@localhost/ai-agents
 
 # Redis
 REDIS_URL=redis://localhost:6379
@@ -2029,7 +2029,7 @@ NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_...
 
 ### 15.2 Feature Flags
 
-**Plan Mode:** Controlled by localStorage `prettiflow:planMode` (default: true)
+**Plan Mode:** Controlled by localStorage `ai-agents:planMode` (default: true)
 
 **Multi-Agent:** Controlled by localStorage `pf:multiAgent` (default: false)
 
@@ -2181,7 +2181,7 @@ User sees token-by-token output
 Frontend:
   - Next.js app → Vercel, AWS Amplify, or self-hosted
   - Static assets: CDN (Cloudflare, AWS CloudFront)
-  - Environment: NEXT_PUBLIC_BACKEND_URL=https://api.prettiflow.com
+  - Environment: NEXT_PUBLIC_BACKEND_URL=https://api.ai-agents.com
 
 Backend:
   - Express.js → Docker container
@@ -2269,7 +2269,7 @@ E2B Sandboxes:
 
 ## 21. CONCLUSION
 
-PrettiFlow is a sophisticated multi-component system orchestrating AI-driven project generation:
+AI Agents is a sophisticated multi-component system orchestrating AI-driven project generation:
 
 1. **Frontend** manages user interaction and real-time display via WebSocket
 2. **Backend** routes requests and coordinates concurrent agent execution

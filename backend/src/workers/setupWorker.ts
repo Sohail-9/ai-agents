@@ -2,9 +2,9 @@
  * setupWorker.ts
  *
  * Processes "workspace-setup" jobs:
- *   1. AI analysis → prettiflow.md
+ *   1. AI analysis → ai-agents.md
  *   2. Create E2B sandbox
- *   3. Write prettiflow.md to sandbox
+ *   3. Write ai-agents.md to sandbox
  *   4. Update workspace in DB
  *   5. Create todos
  *   6. Enqueue an "agent-run" job (job chaining — no tight coupling)
@@ -177,10 +177,10 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
       }
     }
 
-    // 1. AI → prettiflow.md (skip if WSManager already ran the analysis)
-    let prettiflowMd: string;
+    // 1. AI → ai-agents.md (skip if WSManager already ran the analysis)
+    let aiAgentsMd: string;
     if (cachedAiResponse?.contextContent) {
-      prettiflowMd = cachedAiResponse.contextContent;
+      aiAgentsMd = cachedAiResponse.contextContent;
     } else {
       const planningCtx = [
         `Framework: ${framework}`,
@@ -199,7 +199,7 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
         userId,
         imageRefs.length ? imageRefs : undefined,
       );
-      prettiflowMd =
+      aiAgentsMd =
         aiResponse.contextContent ||
         ContextBuilder.getInstance().build({
           idea,
@@ -228,7 +228,7 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
     let resolvedTemplateId: string;
     try {
       const result = await SandboxManager.getInstance().openAndInit({
-        prettiflowMd,
+        aiAgentsMd,
         framework,
         databaseUrl: resolvedDatabaseUrl,
         databaseName: resolvedDatabaseName,
@@ -244,7 +244,7 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
           `[SetupWorker] Warm sandbox ${warmId} unusable, falling back to fresh create: ${err.message}`,
         );
         const fresh = await SandboxManager.getInstance().openAndInit({
-          prettiflowMd,
+          aiAgentsMd,
           framework,
           databaseUrl: resolvedDatabaseUrl,
           databaseName: resolvedDatabaseName,
@@ -258,10 +258,10 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
     }
     console.log(`[SetupWorker] Sandbox ready: ${sandboxId}${warmId === sandboxId ? " (warm)" : " (cold)"}`);
 
-    // 3. Persist sandbox + prettiflow.md (and seed lifecycle state)
+    // 3. Persist sandbox + ai-agents.md (and seed lifecycle state)
     await Promise.all([
       workspaceService.updateSandboxId(workspaceId, sandboxId),
-      workspaceService.updatePrettiflow(workspaceId, prettiflowMd),
+      workspaceService.updateAI Agents(workspaceId, aiAgentsMd),
       workspaceService.linkSessionToWorkspace(sessionId, workspaceId),
       sandboxLifecycleService.markCreated(workspaceId),
     ]);
@@ -344,7 +344,7 @@ async function processSetupJob(job: Job<WorkspaceSetupPayload>) {
     } else {
       // 5b. Create todos BEFORE enqueueing agent so the wave loop always finds them
       try {
-        const todos = parseTodosFromContext(prettiflowMd);
+        const todos = parseTodosFromContext(aiAgentsMd);
         await todoService.createTodosWithDeps(workspaceId, todos, 1);
         const allTodos = await todoService.listAllTodos(workspaceId);
         emit("TODO_LIST_RESULT", { todos: allTodos, workspaceId });

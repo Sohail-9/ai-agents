@@ -1,8 +1,8 @@
-# Supermemory Integration in Prettiflow
+# Supermemory Integration in AI Agents
 
 ## Overview
 
-Supermemory is an optional, cloud-based memory system that provides per-workspace and cross-project context for Prettiflow agents. It enables:
+Supermemory is an optional, cloud-based memory system that provides per-workspace and cross-project context for AI Agents agents. It enables:
 
 - **Profile + Recall**: Fetching static/dynamic profiles and relevant memories for task execution
 - **Transcript Ingest**: Storing completed tasks and conversations for future retrieval
@@ -115,7 +115,7 @@ Called once during startup:
 export async function ensureOrgSettings(): Promise<void>
 ```
 
-Sets org-wide filter prompt so Supermemory indexes only PrettiFlow-relevant content.
+Sets org-wide filter prompt so Supermemory indexes only AI Agents-relevant content.
 
 **Skips**: raw code, verbose shell output, system messages, repeated errors
 
@@ -195,7 +195,7 @@ await client.add({
   customId: opts.workspaceId,    // workspace isolation filter
   taskType: "memory",
   entityContext: <context>,
-  metadata: { source: "prettiflow-agent", workspaceId, framework, success: true }
+  metadata: { source: "ai-agents-agent", workspaceId, framework, success: true }
 })
 
 // Write 2: User-level (if userId present)
@@ -482,7 +482,7 @@ export function formatTranscriptForIngest(
 ```json
 {
   "metadata": {
-    "source": "prettiflow-agent" | "prettiflow-facts",
+    "source": "ai-agents-agent" | "ai-agents-facts",
     "workspaceId": "workspace-uuid",
     "framework": "Next.js",
     "todoTitle": "Task title",
@@ -493,7 +493,7 @@ export function formatTranscriptForIngest(
 
 ### Entity Context (Extraction Guidance)
 ```
-PrettiFlow AI coding agent workspace. Framework: {framework}.
+AI Agents AI coding agent workspace. Framework: {framework}.
 Extract as memories:
   - npm/pip packages installed
   - architecture decisions

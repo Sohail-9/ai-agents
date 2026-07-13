@@ -27,7 +27,7 @@
 ## 1. Feature Overview
 
 ### Vision
-Transform Prettiflow's editor from a read-only code viewer into a real, premium code editor with fast git commit capability. Every interaction (edit, commit, push) must feel intentional, polished, and responsive — matching the standard set by Linear or Vercel.
+Transform AI Agents's editor from a read-only code viewer into a real, premium code editor with fast git commit capability. Every interaction (edit, commit, push) must feel intentional, polished, and responsive — matching the standard set by Linear or Vercel.
 
 ### User Journey
 1. User opens workspace, selects a file from the tree
@@ -67,7 +67,7 @@ The new **targeted commit** approach:
 - Pros: Modular, ~300KB base, extensible, fast initialization, perfect for embedded editors
 - Cons: Fewer built-ins, but everything we need exists via extensions
 
-**Decision:** CodeMirror 6. Client-side bundle size matters for Prettiflow's web-first UI.
+**Decision:** CodeMirror 6. Client-side bundle size matters for AI Agents's web-first UI.
 
 ### 2.2 Why React Context (not Zustand)
 
@@ -112,7 +112,7 @@ No E2B file reads. Much faster.
 
 ### 2.4 Why Express Backend Routes (not Next.js API routes)
 
-Prettiflow architecture:
+AI Agents architecture:
 - Frontend: Next.js 16.2.6 (`client/`)
 - Backend: Express 5.2.1 (`backend/`)
 - All API routes: Express (`backend/src/routes/`)
@@ -349,7 +349,7 @@ export async function pushTargetedCommit(
   
   // Add manifest
   changes.push({
-    path: '.prettiflow-manifest.json',
+    path: '.ai-agents-manifest.json',
     content: JSON.stringify({
       version: 1,
       createdAt: new Date().toISOString(),
@@ -373,8 +373,8 @@ export async function pushTargetedCommit(
           branch: 'main',
           message: commitMessage.slice(0, 200),
           author: {
-            name: 'Prettiflow User',
-            email: 'user@prettiflow.com', // Could track actual user email if available
+            name: 'AI Agents User',
+            email: 'user@ai-agents.com', // Could track actual user email if available
           },
           changes,
         }),
@@ -1316,13 +1316,13 @@ POST /v1/repos/:namespace/:slug/commits
   "branch": "main",
   "message": "fix: update component styling",
   "author": {
-    "name": "Prettiflow User",
-    "email": "user@prettiflow.com"
+    "name": "AI Agents User",
+    "email": "user@ai-agents.com"
   },
   "changes": [
     { "path": "src/App.tsx", "content": "..." },
     { "path": "src/App.css", "content": "..." },
-    { "path": ".prettiflow-manifest.json", "content": "..." }
+    { "path": ".ai-agents-manifest.json", "content": "..." }
   ]
 }
 ```
@@ -1334,7 +1334,7 @@ Response:
   "commit": {
     "sha": "abc1234def5678...",
     "message": "fix: update component styling",
-    "author": "Prettiflow User <user@prettiflow.com>",
+    "author": "AI Agents User <user@ai-agents.com>",
     "created_at": "2026-05-24T12:34:56Z"
   }
 }

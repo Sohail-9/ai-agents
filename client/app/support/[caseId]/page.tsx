@@ -424,8 +424,8 @@ export default function CasePage() {
 
             {/* Agent section header */}
             <div className="flex items-center gap-2.5 mb-5">
-              <img src="/logos/logo.svg" alt="Prettiflow" className="w-[18px] h-[18px]" />
-              <h3 className="text-[16px] font-semibold text-white/85">Prettiflow Agent</h3>
+              <img src="/logos/logo.svg" alt="AI Agents" className="w-[18px] h-[18px]" />
+              <h3 className="text-[16px] font-semibold text-white/85">AI Agents Agent</h3>
             </div>
 
             {/* Messages */}

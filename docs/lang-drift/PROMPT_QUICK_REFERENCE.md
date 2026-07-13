@@ -1,4 +1,4 @@
-# PrettiFlow Prompt Injection Quick Reference
+# AI Agents Prompt Injection Quick Reference
 
 ## File Locations Map
 
@@ -56,7 +56,7 @@ backend/src/
 │   └── conversationSummarizer.ts
 │
 ├── context/
-│   └── contextBuilder.ts          ← BUILDS Prettiflow.md
+│   └── contextBuilder.ts          ← BUILDS AI Agents.md
 │
 └── services/
     └── providerResolver.ts        ← PROVIDER SELECTION
@@ -78,7 +78,7 @@ analyzeIntent() [providers/openai.ts:67]
 
 buildContext() [providers/openai.ts:134]
   Injects: CONTEXT_BUILDER_PROMPT
-  Output: TOON plan → Prettiflow.md
+  Output: TOON plan → AI Agents.md
 ```
 
 ### PHASE 2: Agent Execution
@@ -327,7 +327,7 @@ hasTemplate("Next.js") → true
   ↓
 getSystemPrompt({
   framework: "Next.js",
-  templateId: "prettiflow-node-next",
+  templateId: "ai-agents-node-next",
   idea: projectIdea
 })
   ↓

@@ -1,5 +1,5 @@
 /**
- * PM2 process map for prettiflow-core.
+ * PM2 process map for ai-agents-core.
  *
  *   pm2 start ecosystem.config.cjs
  *
@@ -16,7 +16,7 @@ const env = (k, fallback) => process.env[k] ?? fallback;
 module.exports = {
   apps: [
     {
-      name: "prettiflow-api",
+      name: "ai-agents-api",
       script: "dist/src/index.js",
       instances: Number(env("PM2_API_INSTANCES", 1)),
       exec_mode: "cluster",

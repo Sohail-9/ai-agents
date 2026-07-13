@@ -36,7 +36,7 @@ function buildTreeFromManifestPaths(paths: string[]): any[] {
 
   for (const rawPath of paths) {
     const clean = rawPath.replace(/^\/+/, "").replace(/\/+/g, "/").trim();
-    if (!clean || clean === ".prettiflow-manifest.json") continue;
+    if (!clean || clean === ".ai-agents-manifest.json") continue;
 
     const parts = clean.split("/").filter(Boolean);
     if (parts.length === 0) continue;
@@ -204,7 +204,7 @@ router.get("/:slug/commits", async (req, res) => {
     const commits = snapshots.map((s) => ({
       sha: s.id,
       message: s.commitMessage,
-      author: { name: "Prettiflow Agent", email: "agent@prettiflow.com" },
+      author: { name: "AI Agents Agent", email: "agent@ai-agents.com" },
       timestamp: s.createdAt.toISOString(),
       githubSha: s.githubSha ?? null,
     }));

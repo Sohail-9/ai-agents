@@ -2,7 +2,7 @@
 
 ## Overview
 
-PrettiFlow Agent uses a **persona-based skill routing system** to dynamically inject specialized knowledge into the LLM system prompt based on the task at hand. Rather than using generic coding knowledge for all tasks, skills allow the agent to adopt a specialized persona (architect, frontend-designer, backend engineer, etc.) that provides domain-specific guidance.
+AI Agents Agent uses a **persona-based skill routing system** to dynamically inject specialized knowledge into the LLM system prompt based on the task at hand. Rather than using generic coding knowledge for all tasks, skills allow the agent to adopt a specialized persona (architect, frontend-designer, backend engineer, etc.) that provides domain-specific guidance.
 
 **Key principle:** Each task is intelligently routed to its best-matching skill, loading a specialized SKILL.md persona that augments (but never replaces) the base system prompt.
 

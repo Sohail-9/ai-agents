@@ -96,7 +96,7 @@ function searchResultToLine(r: unknown): string {
 const initializedContainerTags = new Set<string>();
 
 /**
- * Sets entityContext on a workspace container tag so pretti-memory extracts PrettiFlow-relevant facts.
+ * Sets entityContext on a workspace container tag so pretti-memory extracts AI Agents-relevant facts.
  * Idempotent — in-process Set prevents redundant API calls within a single worker.
  */
 export async function ensureContainerTagContext(
@@ -107,7 +107,7 @@ export async function ensureContainerTagContext(
   const tag = workspaceContainerTag(workspaceId);
   if (initializedContainerTags.has(tag)) return;
   const entityContext =
-    `PrettiFlow AI coding agent workspace. Framework: ${framework}. ` +
+    `AI Agents AI coding agent workspace. Framework: ${framework}. ` +
     `Extract as memories: npm/pip packages installed, architecture decisions, ` +
     `frontend and backend port assignments, environment variable names required, ` +
     `common errors and their exact fixes, file structure conventions, ` +
@@ -397,7 +397,7 @@ export async function ingestTodoCompletion(opts: {
   const wsTag = workspaceContainerTag(opts.workspaceId);
   const content = formatStructuredTodoSummary(opts);
   const entityContext =
-    `PrettiFlow AI coding agent workspace. Framework: ${opts.framework}. ` +
+    `AI Agents AI coding agent workspace. Framework: ${opts.framework}. ` +
     `Extract as memories: npm/pip packages installed, architecture decisions, ` +
     `frontend and backend port assignments, environment variable names required, ` +
     `common errors and their exact fixes, file structure conventions, ` +
@@ -409,7 +409,7 @@ export async function ingestTodoCompletion(opts: {
     taskType: "memory",
     entityContext,
     metadata: {
-      source: "prettiflow-agent",
+      source: "ai-agents-agent",
       workspaceId: opts.workspaceId,
       framework: opts.framework,
       todoTitle: opts.todoTitle.slice(0, 64),
@@ -468,7 +468,7 @@ export async function ingestWaveCompletion(opts: {
     taskType: "memory",
     customId,
     metadata: {
-      source: "prettiflow-wave",
+      source: "ai-agents-wave",
       framework: opts.framework,
       workspaceId: opts.workspaceId,
       todoTitle: opts.todoTitle.slice(0, 64),
@@ -504,7 +504,7 @@ export async function ingestAgentTranscript(workspaceId: string, content: string
       content: redactSensitive(content.slice(0, 100_000)),
       containerTag,
       customId: containerTag,
-      metadata: { source: "prettiflow-agent", workspaceId },
+      metadata: { source: "ai-agents-agent", workspaceId },
     });
     console.log(
       `[pretti-memory] add ok workspace=${workspaceId.slice(0, 12)}… containerTagLen=${containerTag.length}`,
@@ -546,7 +546,7 @@ export async function createRunFactMemories(opts: {
     content: redactSensitive(lines.join("\n")),
     taskType: "memory",
     metadata: {
-      source: "prettiflow-facts",
+      source: "ai-agents-facts",
       framework: opts.framework,
       workspaceId: opts.workspaceId,
     },

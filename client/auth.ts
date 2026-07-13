@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 
 // Route through the backend proxy, not the auth service directly — the auth
 // service is private and reachable only by the backend. Backend forwards
-// /api/auth/* upstream verbatim. e.g. https://api.prettiflow.com
+// /api/auth/* upstream verbatim. e.g. https://api.ai-agents.com
 const AUTH = process.env.BACKEND_URL!;
 const SKEW = 30_000; // refresh 30s before expiry
 const ACCESS_TTL = 15 * 60 * 1000; // service access token ~15m (opaque refresh, can't parse)

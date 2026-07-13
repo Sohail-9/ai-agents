@@ -14,7 +14,7 @@ import { prisma } from "../../lib/prisma";
 // name is rewritten (client id → Azure deployment) and usage is billed.
 //
 // Point Claude Code at it:
-//   ANTHROPIC_BASE_URL=https://api.prettiflow.com/api   (NOT /api/v1 — the
+//   ANTHROPIC_BASE_URL=https://api.ai-agents.com/api   (NOT /api/v1 — the
 //     Anthropic SDK appends `/v1/messages` itself → /api/v1/messages here)
 //   ANTHROPIC_API_KEY=sk-pf-…
 // A compat alias is also mounted at /api/v1/v1/messages (see server.ts) so a

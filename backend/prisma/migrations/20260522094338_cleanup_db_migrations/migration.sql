@@ -48,7 +48,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Workspace" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "prettiflowMd" TEXT,
+    "aiAgentsMd" TEXT,
     "summary" TEXT,
     "status" "WorkspaceStatus" NOT NULL DEFAULT 'ACTIVE',
     "sandboxId" TEXT,

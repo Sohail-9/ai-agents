@@ -734,7 +734,7 @@ function buildInitialWaveMessage(
     `- Sandbox ID: ${sandboxId}`,
     `- Working directory: /workspace`,
     `- Project Framework: ${framework || "Not specified"}`,
-    `- Knowledge Base: Read /workspace/Prettiflow.md ONCE for the full spec. Then go straight to writing code — do NOT read other files before editing them.`,
+    `- Knowledge Base: Read /workspace/AI Agents.md ONCE for the full spec. Then go straight to writing code — do NOT read other files before editing them.`,
   ].join("\n");
 
   if (wave.length === 1) {
@@ -1248,11 +1248,11 @@ export async function runAgent(
       const allTodos = await todoService.listAllTodos(workspaceId);
       if (allTodos.length === 0) {
         console.warn(
-          `[AgentRunner] ⚠️ WARNING: No todos found in workspace. Check if Prettiflow.md was parsed correctly.`,
+          `[AgentRunner] ⚠️ WARNING: No todos found in workspace. Check if AI Agents.md was parsed correctly.`,
         );
         emit(
           "AGENT_EVENT",
-          "No todos created. Verify Prettiflow.md exists and has a TODOS section.",
+          "No todos created. Verify AI Agents.md exists and has a TODOS section.",
           { workspaceId },
         );
       } else {

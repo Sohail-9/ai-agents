@@ -1,5 +1,5 @@
 # Staged Asynchronous Pipeline Refactor Plan
-## Low-Latency Architecture for PrettiFlow Agent Execution
+## Low-Latency Architecture for AI Agents Agent Execution
 
 **Status:** Engineering Design Document  
 **Date:** 2026-05-09  
@@ -229,7 +229,7 @@ export interface SandboxPrepPayload {
   workspaceId: string;
   framework?: string;
   templateId?: string;
-  prettiflowMd?: string;
+  aiAgentsMd?: string;
   databaseUrl?: string;
   databaseName?: string;
   meta: JobMeta;
@@ -443,7 +443,7 @@ console.log(`[AcceptanceWorker] Listening on stage-1-acceptance queue (concurren
 **Purpose:** Stage 2 - AI analysis & workspace bootstrap  
 **Responsibilities:**
 - If new workspace: create workspace record
-- Run AI analysis (generate prettiflow.md)
+- Run AI analysis (generate ai-agents.md)
 - Enqueue parallel sandbox-prep and agent-init jobs
 - Emit BOOTSTRAP_COMPLETE
 
@@ -474,15 +474,15 @@ async function processBootstrapJob(job: Job<BootstrapPayload>) {
       console.log(`[BootstrapWorker] Created workspace: ${finalWorkspaceId}`);
     }
     
-    // AI analysis to generate prettiflow.md
+    // AI analysis to generate ai-agents.md
     emit("BOOTSTRAP_STATUS", { message: "Analyzing project requirements..." });
     
     const aiResponse = await ai.processPrompt(message, userId);
-    const prettiflowMd = aiResponse.contextContent ||
+    const aiAgentsMd = aiResponse.contextContent ||
       ContextBuilder.getInstance().build({ idea: message, framework, language: "TypeScript" });
     
     // Store context in workspace
-    await workspaceService.updatePrettiflow(finalWorkspaceId, prettiflowMd);
+    await workspaceService.updateAI Agents(finalWorkspaceId, aiAgentsMd);
     
     emit("BOOTSTRAP_STATUS", { message: "Preparing sandbox and agent..." });
     
@@ -494,7 +494,7 @@ async function processBootstrapJob(job: Job<BootstrapPayload>) {
         {
           workspaceId: finalWorkspaceId,
           framework,
-          prettiflowMd,
+          aiAgentsMd,
           meta,
         },
         { jobId: `sandbox-${finalWorkspaceId}`, attempts: 2 }
@@ -542,7 +542,7 @@ console.log(`[BootstrapWorker] Listening on stage-2-bootstrap queue (concurrency
 **Purpose:** Stage 3A - Sandbox provisioning (heavyweight, parallel)  
 **Responsibilities:**
 - Create/resume E2B sandbox
-- Write prettiflow.md to sandbox
+- Write ai-agents.md to sandbox
 - Persist sandbox ID
 - Emit SANDBOX_READY
 - Heavy but independent from agent init
@@ -550,7 +550,7 @@ console.log(`[BootstrapWorker] Listening on stage-2-bootstrap queue (concurrency
 **Key code:**
 ```typescript
 async function processSandboxPrepJob(job: Job<SandboxPrepPayload>) {
-  const { workspaceId, framework, prettiflowMd, meta } = job.data;
+  const { workspaceId, framework, aiAgentsMd, meta } = job.data;
   
   const emit = (eventName: string, payload: Record<string, unknown>) => {
     const evt = createEvent(eventName, payload, meta);
@@ -575,7 +575,7 @@ async function processSandboxPrepJob(job: Job<SandboxPrepPayload>) {
     
     // Write files in parallel
     await Promise.all([
-      sandbox.files.write("/workspace/Prettiflow.md", prettiflowMd),
+      sandbox.files.write("/workspace/AI Agents.md", aiAgentsMd),
       // Other parallel inits
     ]);
     
@@ -826,10 +826,10 @@ async function processPostProcessingJob(job: Job<PostProcessingPayload>) {
       // Context update
       try {
         const ws = await workspaceService.getWorkspace(workspaceId);
-        if (ws?.prettiflowMd) {
-          const updated = await updateProjectContext(ws.prettiflowMd, summary || '', modifiedFiles, createInternalLLMCall());
+        if (ws?.aiAgentsMd) {
+          const updated = await updateProjectContext(ws.aiAgentsMd, summary || '', modifiedFiles, createInternalLLMCall());
           if (updated) {
-            await workspaceService.updatePrettiflow(workspaceId, updated);
+            await workspaceService.updateAI Agents(workspaceId, updated);
           }
         }
       } catch (err) {
@@ -1055,7 +1055,7 @@ async getMetadata(workspaceId: string) {
 
 **No schema changes required.** All state fits in existing columns:
 - `Workspace.sandboxId` ← set by sandboxPrepWorker
-- `Workspace.prettiflowMd` ← set by bootstrapWorker
+- `Workspace.aiAgentsMd` ← set by bootstrapWorker
 - Message table ← records messages from acceptanceWorker
 - AgentRun table ← tracks execution stages
 
@@ -1112,7 +1112,7 @@ Each payload includes:
 {
   workspaceId: "uuid",
   framework: "Next.js",
-  prettiflowMd: "##...",
+  aiAgentsMd: "##...",
   databaseUrl?: "postgresql://...",
   databaseName?: "mydb",
   meta: { requestId, workspaceId, userId, timestamp }
@@ -1934,7 +1934,7 @@ T=50ms:     Client receives REQUEST_ACCEPTED
 T=80ms:     BootstrapWorker picks up job
             ├─ Creates workspace record
             ├─ Calls ai.processPrompt() [LLM: 100-200ms]
-            ├─ Generates prettiflow.md
+            ├─ Generates ai-agents.md
             ├─ Emits BOOTSTRAP_COMPLETE
             ├─ Enqueues to sandboxPrepQueue (parallel)
             └─ Enqueues to agentInitQueue (parallel)

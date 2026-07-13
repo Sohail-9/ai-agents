@@ -1,15 +1,15 @@
-# PrettiFlow CLI — Authentication API Reference
+# AI Agents CLI — Authentication API Reference
 
-All authentication endpoints the CLI calls against the PrettiFlow auth service: email/password login, signup, token refresh, profile, sessions, and Google login. Backend/model-credential endpoints are intentionally excluded.
+All authentication endpoints the CLI calls against the AI Agents auth service: email/password login, signup, token refresh, profile, sessions, and Google login. Backend/model-credential endpoints are intentionally excluded.
 
 ## Base URL & Configuration
 
 | Environment Variable       | Purpose                              | Default                       | Source                                      |
 | -------------------------- | ------------------------------------ | ----------------------------- | ------------------------------------------- |
-| `PRETTIFLOW_AUTH_BASE_URL` | Auth service host                    | `https://auth.prettiflow.com` | `packages/node-sdk/src/account/types.ts:12` |
-| `PRETTIFLOW_HOME`          | Storage directory for account tokens | `~/.prettiflow`               | (standard Node.js convention)               |
+| `AI_AGENTS_AUTH_BASE_URL` | Auth service host                    | `https://auth.ai-agents.com` | `packages/node-sdk/src/account/types.ts:12` |
+| `AI_AGENTS_HOME`          | Storage directory for account tokens | `~/.ai-agents`               | (standard Node.js convention)               |
 
-All endpoints below are served from `https://auth.prettiflow.com` (or `PRETTIFLOW_AUTH_BASE_URL`).
+All endpoints below are served from `https://auth.ai-agents.com` (or `AI_AGENTS_AUTH_BASE_URL`).
 
 ---
 
@@ -314,12 +314,12 @@ Authorization: Bearer {accessToken}
 
 ## Token Storage
 
-Account tokens are stored locally at `~/.prettiflow/credentials/` (or `$PRETTIFLOW_HOME/credentials/`):
+Account tokens are stored locally at `~/.ai-agents/credentials/` (or `$AI_AGENTS_HOME/credentials/`):
 
 | File                           | Contents                                                                     | Permissions                 |
 | ------------------------------ | ---------------------------------------------------------------------------- | --------------------------- |
-| `prettiflow-account.json`      | `{ "access_token": "...", "refresh_token": "...", "expiresAt": 12345, ... }` | 0600 (user read/write only) |
-| `prettiflow-account.meta.json` | `{ "sessionId": "...", "userId": "..." }`                                    | 0600                        |
+| `ai-agents-account.json`      | `{ "access_token": "...", "refresh_token": "...", "expiresAt": 12345, ... }` | 0600 (user read/write only) |
+| `ai-agents-account.meta.json` | `{ "sessionId": "...", "userId": "..." }`                                    | 0600                        |
 
 ---
 
@@ -339,4 +339,4 @@ Account tokens are stored locally at `~/.prettiflow/credentials/` (or `$PRETTIFL
 | ------------------------------------------- | ------------------------------------------ | ------------------------------------------------------------- |
 | Account client (sign-in, profile, sessions) | `packages/node-sdk/src/account/client.ts`  | HTTP wrappers for `/api/auth/*` and `/api/oauth/google/cli/*` |
 | Account manager (token lifecycle)           | `packages/node-sdk/src/account/manager.ts` | Owns refresh flow, token storage, cross-process lock          |
-| Auth facade (public API)                    | `packages/node-sdk/src/auth.ts`            | `PrettiflowAuthFacade` wraps manager for harness              |
+| Auth facade (public API)                    | `packages/node-sdk/src/auth.ts`            | `AI AgentsAuthFacade` wraps manager for harness              |

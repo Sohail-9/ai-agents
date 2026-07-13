@@ -22,7 +22,7 @@ async function ensureSandbox(): Promise<string | null> {
     return null;
   }
   const created = await SandboxManager.getInstance().openAndInit({
-    prettiflowMd: "# Tool tests",
+    aiAgentsMd: "# Tool tests",
   });
   sandboxId = created.sandboxId;
   return sandboxId;
@@ -57,13 +57,13 @@ async function run() {
     if (!id) return;
 
     const sandbox = await Sandbox.connect(id);
-    await sandbox.files.write(SANDBOX_TEMP_FILE, "hello prettiflow");
+    await sandbox.files.write(SANDBOX_TEMP_FILE, "hello ai-agents");
 
     const ok = await executeTool({
       tool: "read_file",
       params: { path: SANDBOX_TEMP_FILE, sandboxId: id },
     });
-    assert("reads existing file", ok.success && ok.output === "hello prettiflow", ok.error);
+    assert("reads existing file", ok.success && ok.output === "hello ai-agents", ok.error);
 
     const bad = await executeTool({
       tool: "read_file",

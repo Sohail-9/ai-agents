@@ -1,7 +1,7 @@
 /**
  * @module sandboxManager
  * @description Singleton that opens an e2b sandbox with the correct template
- *              based on the selected framework and writes the Prettiflow.md
+ *              based on the selected framework and writes the AI Agents.md
  *              context file into it.
  *
  * The sandbox uses lifecycle: { onTimeout: 'pause' }
@@ -15,7 +15,7 @@ import { bootstrapInspector } from "../inspector/bootstrap";
 import { SandboxNormalizer } from "./sandboxNormalizer";
 
 export interface OpenSandboxInput {
-  prettiflowMd?: string;
+  aiAgentsMd?: string;
   framework?: string;
   templateId?: string;
   sandboxId?: string;
@@ -124,8 +124,8 @@ export class SandboxManager {
 
     const fileWrites: Promise<any>[] = [];
 
-    if (input.prettiflowMd) {
-      fileWrites.push(sandbox.files.write("/workspace/Prettiflow.md", input.prettiflowMd));
+    if (input.aiAgentsMd) {
+      fileWrites.push(sandbox.files.write("/workspace/AI Agents.md", input.aiAgentsMd));
     }
 
     if (input.databaseUrl) {
@@ -192,8 +192,8 @@ export class SandboxManager {
       try {
         await sandbox.commands.run(
           `rm -f .git/index.lock && git init && ` +
-          `git config user.name "Prettiflow" && ` +
-          `git config user.email "bot@prettiflow.com" && ` +
+          `git config user.name "AI Agents" && ` +
+          `git config user.email "bot@ai-agents.com" && ` +
           `git add . && git commit -m "feat: initial workspace scaffold"`,
           { cwd: "/workspace" }
         );

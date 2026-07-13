@@ -130,7 +130,7 @@ const TOOLS: OpenAI.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'searchDocs',
-      description: 'Search PrettiFlow documentation by keyword.',
+      description: 'Search AI Agents documentation by keyword.',
       parameters: {
         type: 'object',
         properties: { query: { type: 'string', description: 'Search query' } },
@@ -212,8 +212,8 @@ export class SupportAgent {
 
     await emit({ type: 'SUPPORT_AGENT_START', payload: { caseId } });
 
-    const systemPrompt = `You are the PrettiFlow Support Agent — an AI assistant helping users with their PrettiFlow projects.
-PrettiFlow is an AI-powered platform that scaffolds and edits full-stack applications inside cloud sandboxes.
+    const systemPrompt = `You are the AI Agents Support Agent — an AI assistant helping users with their AI Agents projects.
+AI Agents is an AI-powered platform that scaffolds and edits full-stack applications inside cloud sandboxes.
 
 CURRENT USER:
 - Name: ${userName}
@@ -462,7 +462,7 @@ RESPONSE FORMAT RULES — FOLLOW STRICTLY:
         }
         return matches.length
           ? matches.join('\n\n')
-          : 'No documentation found for that query. Advise the user to check prettiflow.com/docs or escalate.';
+          : 'No documentation found for that query. Advise the user to check ai-agents.com/docs or escalate.';
       }
 
       case 'resolveCase': {

@@ -44,7 +44,7 @@ Total for conversational path: 6-13s before AGENT_STARTED
 ```
 ai.planUpdate(message, updateContext)  [AI CALL: ~3-7s]
 ├─ LLM inference to generate TODO plan
-└─ Includes workspace context (prettiflowMd, env context)
+└─ Includes workspace context (aiAgentsMd, env context)
 
 parseTodosFromContext()  [SYNC: ~100ms]
 

@@ -89,7 +89,7 @@ export default function Home() {
 
   // Persist mode
   useEffect(() => {
-    const saved = localStorage.getItem("prettiflow:planMode");
+    const saved = localStorage.getItem("ai-agents:planMode");
     setActiveMode(saved === "false" ? "build" : "plan");
     setMultiAgent(localStorage.getItem("pf:multiAgent") === "true");
   }, []);
@@ -190,7 +190,7 @@ export default function Home() {
   const toggleMode = useCallback(() => {
     setActiveMode((prev) => {
       const next = prev === "plan" ? "build" : "plan";
-      localStorage.setItem("prettiflow:planMode", next === "plan" ? "true" : "false");
+      localStorage.setItem("ai-agents:planMode", next === "plan" ? "true" : "false");
       return next;
     });
   }, []);
@@ -346,7 +346,7 @@ export default function Home() {
           >
             <Menu size={20} />
           </button>
-          <img src="/logos/logoname_dark.svg" alt="PrettiFlow" className="h-[18px] absolute left-1/2 -translate-x-1/2" />
+          <img src="/logos/logoname_dark.svg" alt="AI Agents" className="h-[18px] absolute left-1/2 -translate-x-1/2" />
           <div className="w-9" />
         </div>
 
@@ -610,14 +610,14 @@ export default function Home() {
                         </button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="start" side="bottom" sideOffset={8} className="w-[180px] p-1 z-[100] shadow-2xl rounded-[18px] bg-[#2A2A2D] border-white/10 text-white">
-                        <DropdownMenuItem onClick={() => { setActiveMode("plan"); localStorage.setItem("prettiflow:planMode", "true"); }} className="gap-2.5 cursor-pointer rounded-[10px] py-1.5 px-2 flex items-start outline-none hover:bg-white/10">
+                        <DropdownMenuItem onClick={() => { setActiveMode("plan"); localStorage.setItem("ai-agents:planMode", "true"); }} className="gap-2.5 cursor-pointer rounded-[10px] py-1.5 px-2 flex items-start outline-none hover:bg-white/10">
                           <div className="flex flex-col flex-1 gap-0.5">
                             <span className="text-[12px] font-semibold text-gray-100">Plan</span>
                             <span className="text-[10px] text-gray-400">Detailed plan before building</span>
                           </div>
                           {activeMode === "plan" && <Check className="w-3.5 h-3.5 text-brand-pink mt-0.5 shrink-0" />}
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => { setActiveMode("build"); localStorage.setItem("prettiflow:planMode", "false"); }} className="gap-2.5 cursor-pointer rounded-[10px] py-1.5 px-2 flex items-start outline-none hover:bg-white/10">
+                        <DropdownMenuItem onClick={() => { setActiveMode("build"); localStorage.setItem("ai-agents:planMode", "false"); }} className="gap-2.5 cursor-pointer rounded-[10px] py-1.5 px-2 flex items-start outline-none hover:bg-white/10">
                           <div className="flex flex-col flex-1 gap-0.5">
                             <span className="text-[12px] font-semibold text-gray-100">Build</span>
                             <span className="text-[10px] text-gray-400">Make changes directly</span>
@@ -814,10 +814,10 @@ export default function Home() {
               <div className="px-3 pb-8 flex flex-col gap-1">
                 <SheetRow icon={<Sparkles size={16} />} label="Plan mode" sublabel="Detailed plan before building"
                   right={activeMode === "plan" ? <Check size={15} className="text-brand-pink" /> : undefined}
-                  onClick={() => { setActiveMode("plan"); localStorage.setItem("prettiflow:planMode", "true"); setModeSheetOpen(false); }} />
+                  onClick={() => { setActiveMode("plan"); localStorage.setItem("ai-agents:planMode", "true"); setModeSheetOpen(false); }} />
                 <SheetRow icon={<ArrowUp size={16} />} label="Build mode" sublabel="Make changes directly"
                   right={activeMode === "build" ? <Check size={15} className="text-brand-pink" /> : undefined}
-                  onClick={() => { setActiveMode("build"); localStorage.setItem("prettiflow:planMode", "false"); setModeSheetOpen(false); }} />
+                  onClick={() => { setActiveMode("build"); localStorage.setItem("ai-agents:planMode", "false"); setModeSheetOpen(false); }} />
               </div>
             </motion.div>
           </>

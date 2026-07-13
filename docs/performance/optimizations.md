@@ -1,4 +1,4 @@
-# Prettiflow Latency Analysis & Optimization Recommendations
+# AI Agents Latency Analysis & Optimization Recommendations
 
 **Date**: 2026-05-07  
 **Issue**: 10+ second delay when users send requests and agent starts working  
@@ -371,7 +371,7 @@ if (workspace && !workspace.sandboxId) {
   // Start sandbox creation in background (fire-and-forget)
   SandboxManager.getInstance().openAndInit({
     framework: wsConfig.framework || ctx.framework,
-    prettiflowMd: null, // Will update later
+    aiAgentsMd: null, // Will update later
   }).then(async (result) => {
     // Update workspace with sandboxId immediately
     await workspaceService.updateSandboxId(ctx.workspaceId!, result.sandboxId);
@@ -418,7 +418,7 @@ class SandboxPool {
   startWarmUp() {
     // Background task: keep pool warm
     setInterval(async () => {
-      const templates = ["prettiflow-node-next", "base"];
+      const templates = ["ai-agents-node-next", "base"];
       for (const tId of templates) {
         const pool = this.pools.get(tId) || [];
         while (pool.length < this.poolSize) {

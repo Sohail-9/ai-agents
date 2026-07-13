@@ -1,4 +1,4 @@
-# Prettiflow Auth — API Reference
+# AI Agents Auth — API Reference
 
 Test-ready reference for every auth route. Base URL (dev): `http://localhost:8000`
 

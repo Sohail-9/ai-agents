@@ -1,6 +1,6 @@
 # Authentication Architecture — Clerk Integration
 
-This document describes **how authentication currently works** in PrettiFlow, end to end,
+This document describes **how authentication currently works** in AI Agents, end to end,
 across the Next.js client and the Express backend. It is a reference of the *current state*
 (Clerk-based), not a migration plan.
 
@@ -8,7 +8,7 @@ across the Next.js client and the Express backend. It is a reference of the *cur
 
 ## 1. High-Level Overview
 
-PrettiFlow uses **Clerk** as the identity provider. Clerk owns the entire login surface:
+AI Agents uses **Clerk** as the identity provider. Clerk owns the entire login surface:
 sign-in, sign-up, session management, and JWT issuance. The application never sees or stores
 passwords.
 

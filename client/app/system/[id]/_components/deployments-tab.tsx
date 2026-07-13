@@ -21,7 +21,7 @@ const DEMO_DEPLOYMENT: DeploymentRecord = {
   jobId: "job-demo-abc123",
   type: "FRONTEND",
   cloudfrontUrl: "d1abc23def456.cloudfront.net",
-  previewUrl: "https://demo.prettiflow.com",
+  previewUrl: "https://demo.ai-agents.com",
   createdAt: new Date(Date.now() - 4 * 60 * 1000).toISOString(),
   updatedAt: new Date(Date.now() - 1 * 60 * 1000).toISOString(),
   status: "SUCCESS",
@@ -47,11 +47,11 @@ const DEMO_LOGS: Array<{ text: string; isError: boolean; delay: number }> = [
   { text: "  ✓ Finalizing page optimization", isError: false, delay: 4500 },
   { text: "Build output: 2.3 MB (gzip: 612 KB)", isError: false, delay: 4700 },
   { text: "Uploading assets to S3 bucket...", isError: false, delay: 4900 },
-  { text: "Uploaded 87 files to s3://prettiflow-deployments/demo-deploy-001/", isError: false, delay: 5600 },
+  { text: "Uploaded 87 files to s3://ai-agents-deployments/demo-deploy-001/", isError: false, delay: 5600 },
   { text: "Invalidating CloudFront distribution...", isError: false, delay: 5800 },
   { text: "CloudFront invalidation created: I2XABCDEF123456", isError: false, delay: 6200 },
   { text: "Setting DNS records...", isError: false, delay: 6400 },
-  { text: "✓ Deployment live at https://demo.prettiflow.com", isError: false, delay: 6800 },
+  { text: "✓ Deployment live at https://demo.ai-agents.com", isError: false, delay: 6800 },
   { text: "Job demo-deploy-001 completed successfully in 3m 12s", isError: false, delay: 7000 },
 ];
 

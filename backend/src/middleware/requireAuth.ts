@@ -21,7 +21,7 @@ export async function requireAuth(req: Request, res: Response, next: NextFunctio
     }
   }
 
-  // PrettiFlow auth service access token (RS256, verified via JWKS).
+  // AI Agents auth service access token (RS256, verified via JWKS).
   const identity = await verifyServiceToken(token);
   if (identity) {
     res.locals.userId = identity.userId;

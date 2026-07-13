@@ -1702,9 +1702,9 @@ export class WebSocketManager {
   /**
    * New workspace setup flow (workspace already exists in DB from REST):
    *   1. Run AI analysis on the user's idea
-   *   2. Build context (Prettiflow.md)
-   *   3. Create e2b sandbox → write Prettiflow.md
-   *   4. Update workspace in DB with sandboxId + prettiflowMd
+   *   2. Build context (AI Agents.md)
+   *   3. Create e2b sandbox → write AI Agents.md
+   *   4. Update workspace in DB with sandboxId + aiAgentsMd
    *   5. Create todos
    *   6. Auto-trigger agent run
    */
@@ -1760,7 +1760,7 @@ export class WebSocketManager {
           `${idea}\n\n${planningEnvContext}`,
           ctx.userId,
         );
-        const prettiflowMd =
+        const aiAgentsMd =
           aiResponse.contextContent ||
           ContextBuilder.getInstance().build({
             idea,
@@ -1795,7 +1795,7 @@ export class WebSocketManager {
         );
         const { sandboxId, templateId: resolvedTemplateId } =
           await SandboxManager.getInstance().openAndInit({
-            prettiflowMd,
+            aiAgentsMd,
             framework,
           });
 
@@ -1815,7 +1815,7 @@ export class WebSocketManager {
         // run concurrently
         await Promise.all([
           workspaceService.updateSandboxId(workspaceId, sandboxId),
-          workspaceService.updatePrettiflow(workspaceId, prettiflowMd),
+          workspaceService.updateAI Agents(workspaceId, aiAgentsMd),
           workspaceService.linkSessionToWorkspace(ctx.sessionId, workspaceId),
         ]);
 
@@ -1849,7 +1849,7 @@ export class WebSocketManager {
             meta,
           ),
         );
-        const todos = parseTodosFromContext(prettiflowMd);
+        const todos = parseTodosFromContext(aiAgentsMd);
         await todoService.createTodosWithDeps(workspaceId, todos, 1);
         console.log(
           `[WSManager] Created ${todos.length} todos for workspace ${workspaceId}`,
@@ -2127,7 +2127,7 @@ export class WebSocketManager {
 
       // Plan update todos via AI (using import update prompt)
       const updateContext = [
-        workspace.prettiflowMd || `Repo: ${owner}/${repo}`,
+        workspace.aiAgentsMd || `Repo: ${owner}/${repo}`,
         "",
         buildPlanningEnvironmentContext({
           workspaceId,
@@ -2302,7 +2302,7 @@ export class WebSocketManager {
           );
           const answer = await answerConversationalQuery(
             message,
-            workspace.prettiflowMd || "",
+            workspace.aiAgentsMd || "",
             fileContext,
           );
 

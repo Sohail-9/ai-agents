@@ -1,7 +1,7 @@
-# PrettiFlow Prompt Injection Architecture Map
+# AI Agents Prompt Injection Architecture Map
 
 ## Overview
-This document maps the complete flow of prompt injection in the PrettiFlow backend, detailing where prompts are defined, how they flow through the system, and where they are injected at each stage of agent execution.
+This document maps the complete flow of prompt injection in the AI Agents backend, detailing where prompts are defined, how they flow through the system, and where they are injected at each stage of agent execution.
 
 ---
 
@@ -36,7 +36,7 @@ FOLLOWUP_MODE_RULES               → Rules appended for follow-up tasks
 **Prompt Registry (Line 6-9):**
 ```
 FRAMEWORK_TEMPLATES = {
-  "Next.js": "prettiflow-node-next",
+  "Next.js": "ai-agents-node-next",
   "github-import": process.env.E2B_HYBRID_IMPORT_TEMPLATE_ID
 }
 ```
@@ -279,12 +279,12 @@ User Answers + Framework Choice
 provider.buildContext()
     ├─ Injects: CONTEXT_BUILDER_PROMPT (or GITHUB_IMPORT_CONTEXT_PROMPT)
     ├─ Format: TOON (TYPE READY/UPDATE/IMPORT)
-    └─ Stores: Prettiflow.md in workspace
+    └─ Stores: AI Agents.md in workspace
 ```
 
 ### 6.3 Follow-up Planning
 ```
-Existing Prettiflow.md + New User Request
+Existing AI Agents.md + New User Request
     ↓
 provider.planUpdate()
     ├─ Injects: UPDATE_PLANNER_PROMPT (or GITHUB_IMPORT_UPDATE_PROMPT)
@@ -424,7 +424,7 @@ Returns: {model, maxTokens, costMultiplier}
             ┌─────────────────────────────────────┐
             │ CONTEXT BUILDING                    │
             │ Prompt: CONTEXT_BUILDER_PROMPT      │
-            │ Output: TOON plan (Prettiflow.md)   │
+            │ Output: TOON plan (AI Agents.md)   │
             └─────────────────────────────────────┘
                              ↓
 ┌─────────────────────────────────────────────────────────────────┐

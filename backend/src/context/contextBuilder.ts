@@ -1,6 +1,6 @@
 /**
  * @module contextBuilder
- * @description Pure sync module that converts poll answers into a Prettiflow.md
+ * @description Pure sync module that converts poll answers into a AI Agents.md
  *              markdown string.
  */
 

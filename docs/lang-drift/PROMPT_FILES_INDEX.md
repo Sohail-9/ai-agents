@@ -1,4 +1,4 @@
-# PrettiFlow Prompt Injection Files Index
+# AI Agents Prompt Injection Files Index
 
 Complete reference of all files involved in prompt definition and injection with specific line numbers.
 
@@ -262,7 +262,7 @@ const response = await llm.chat.completions.create({
 
 | Line(s) | Content | Purpose |
 |---|---|---|
-| 27-46 | `build(input: PollAnswers)` | Creates Prettiflow.md template |
+| 27-46 | `build(input: PollAnswers)` | Creates AI Agents.md template |
 | 29-44 | String building | Project metadata formatting |
 
 ---

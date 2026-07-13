@@ -1,6 +1,6 @@
-# Prettiflow AI Backend
+# AI Agents AI Backend
 
-A starter Node.js + TypeScript project scaffolded to host AI workflows for the Prettiflow backend. It currently contains a simple pipeline stub that echoes prompts, making it easy to plug in real model calls later. An Express server and WebSocket bridge are also provided to surface contributor rules and accept lightweight signals.
+A starter Node.js + TypeScript project scaffolded to host AI workflows for the AI Agents backend. It currently contains a simple pipeline stub that echoes prompts, making it easy to plug in real model calls later. An Express server and WebSocket bridge are also provided to surface contributor rules and accept lightweight signals.
 
 ## Scripts
 

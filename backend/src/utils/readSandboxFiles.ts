@@ -66,8 +66,8 @@ export async function readSandboxFiles(
       `rm -rf /workspace/frontend/.git /workspace/backend/.git 2>/dev/null || true && ` +
       `find . -mindepth 2 -name ".git" -type d -exec rm -rf {} + 2>/dev/null || true && ` +
       `git init -q && ` +
-      `git config user.name "Prettiflow" && ` +
-      `git config user.email "bot@prettiflow.com" && ` +
+      `git config user.name "AI Agents" && ` +
+      `git config user.email "bot@ai-agents.com" && ` +
       `git add . && git status -s`,
       { cwd: safeRootPath }
     ).catch(err => {
@@ -160,8 +160,8 @@ export async function readSandboxFiles(
       `rm -rf /workspace/frontend/.git /workspace/backend/.git 2>/dev/null; true && ` +
       `find . -mindepth 2 -name ".git" -type d -exec rm -rf {} + 2>/dev/null; true && ` +
       `rm -f .git/index.lock && git init && ` +
-      `git config user.name "Prettiflow" && ` +
-      `git config user.email "bot@prettiflow.com" && ` +
+      `git config user.name "AI Agents" && ` +
+      `git config user.email "bot@ai-agents.com" && ` +
       `git add . && git commit -m "snapshot" --allow-empty`,
       { cwd: safeRootPath },
     ).catch(err => console.error("[readSandboxFiles] Git forceFull commit failed:", err.message));

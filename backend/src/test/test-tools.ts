@@ -14,7 +14,7 @@ async function main() {
   console.log("\n=== Testing execute_shell ===");
   console.log("Creating temporary E2B Sandbox (takes a few seconds)...");
   try {
-    const { sandboxId } = await SandboxManager.getInstance().openAndInit({ prettiflowMd: "Test context" });
+    const { sandboxId } = await SandboxManager.getInstance().openAndInit({ aiAgentsMd: "Test context" });
     
     const shellResult = await executeTool({
       tool: "execute_shell",
@@ -35,7 +35,7 @@ async function main() {
       framework: "Next.js",
       language: "TypeScript",
       database: "None",
-      prettiflowMd: "Test MD",
+      aiAgentsMd: "Test MD",
       summary: "Test",
       sandboxId: "sandbox_test",
     });

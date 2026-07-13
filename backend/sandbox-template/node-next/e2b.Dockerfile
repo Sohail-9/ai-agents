@@ -16,14 +16,14 @@ WORKDIR /workspace
 
 # 1. Setup Backend (Express + Drizzle)
 RUN echo "Building backend at commit: ${BACKEND_COMMIT}"
-RUN git clone https://github.com/PrettiFlow/express-backend-template.git ./backend \
+RUN git clone https://github.com/AI Agents/express-backend-template.git ./backend \
   && cd ./backend \
   && git checkout ${BACKEND_COMMIT} \
   && npm install
 
 # 2. Setup Frontend (Next.js)
 RUN echo "Building frontend at commit: ${FRONTEND_COMMIT}"
-RUN git clone https://github.com/PrettiFlow/pettiflow-nextjs-template.git ./frontend \
+RUN git clone https://github.com/AI Agents/pettiflow-nextjs-template.git ./frontend \
   && cd ./frontend \
   && git checkout ${FRONTEND_COMMIT} \
   && npm install

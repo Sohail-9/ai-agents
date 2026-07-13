@@ -210,7 +210,7 @@ export default function AdminCreditsPage() {
     return (
       <div className="min-h-screen bg-[#0d0d0e] flex flex-col text-white">
         <div className="px-6 py-5">
-          <img src="/logos/logoname_dark.svg" alt="PrettiFlow" className="h-[22px]" />
+          <img src="/logos/logoname_dark.svg" alt="AI Agents" className="h-[22px]" />
         </div>
         <div className="flex-1 flex flex-col items-center justify-center px-4 pb-16">
           <div className="w-full max-w-[320px]">
@@ -240,7 +240,7 @@ export default function AdminCreditsPage() {
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
         <div className="flex items-center gap-6">
-          <img src="/logos/logoname_dark.svg" alt="PrettiFlow" className="h-[22px]" />
+          <img src="/logos/logoname_dark.svg" alt="AI Agents" className="h-[22px]" />
           <nav className="flex items-center gap-1">
             <Link href="/admin"
               className="flex items-center gap-1.5 text-[12px] font-medium px-3 py-1.5 rounded-lg text-white/40 hover:text-white/70 hover:bg-white/[0.04] transition-colors">

@@ -23,7 +23,7 @@
 
 ## 1. Overview
 
-PrettiFlow's support agent is an AI-powered customer support system that lets users file support cases and receive autonomous responses from an LLM-backed agent. The agent has tools to inspect the user's workspaces, retrieve request history, search an internal knowledge base, and either resolve cases or escalate them to the human team.
+AI Agents's support agent is an AI-powered customer support system that lets users file support cases and receive autonomous responses from an LLM-backed agent. The agent has tools to inspect the user's workspaces, retrieve request history, search an internal knowledge base, and either resolve cases or escalate them to the human team.
 
 **Key capabilities:**
 - Create a support case tied to a workspace or account-level issue
@@ -275,8 +275,8 @@ Returns relevant section(s) as plain text.
 ### System Prompt
 
 ```
-You are the PrettiFlow AI support engineer. Your job is to diagnose and 
-resolve issues with PrettiFlow workspaces, code generation, and the platform.
+You are the AI Agents AI support engineer. Your job is to diagnose and 
+resolve issues with AI Agents workspaces, code generation, and the platform.
 
 Rules:
 - Never use emojis
@@ -442,10 +442,10 @@ interface EscalationPayload {
 ```
 SMTP_HOST=smtp.gmail.com  (or any SMTP)
 SMTP_PORT=587
-SMTP_USER=support@prettiflow.com
+SMTP_USER=support@ai-agents.com
 SMTP_PASS=<app-password>
-SMTP_FROM="PrettiFlow Support <support@prettiflow.com>"
-SUPPORT_ADMIN_EMAILS=amit@prettiflow.com,shyam@prettiflow.com
+SMTP_FROM="AI Agents Support <support@ai-agents.com>"
+SUPPORT_ADMIN_EMAILS=amit@ai-agents.com,shyam@ai-agents.com
 ```
 
 ---
@@ -658,13 +658,13 @@ GROQ_BASE_URL=https://api.groq.com/openai/v1
 # Email
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
-SMTP_USER=support@prettiflow.com
+SMTP_USER=support@ai-agents.com
 SMTP_PASS=
-SMTP_FROM="PrettiFlow Support <support@prettiflow.com>"
-SUPPORT_ADMIN_EMAILS=amit@prettiflow.com,shyam@prettiflow.com
+SMTP_FROM="AI Agents Support <support@ai-agents.com>"
+SUPPORT_ADMIN_EMAILS=amit@ai-agents.com,shyam@ai-agents.com
 
 # Links
-FRONTEND_URL=https://app.prettiflow.com
+FRONTEND_URL=https://app.ai-agents.com
 
 # Queue
 REDIS_URL=redis://...

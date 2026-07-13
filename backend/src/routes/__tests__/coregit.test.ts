@@ -246,9 +246,9 @@ describe("Coregit Routes", () => {
     it("should return repository info", async () => {
       const mockInfo = {
         slug: "test-workspace",
-        org: "prettiflow",
-        cloneUrl: "https://prettiflow:token@api.coregit.dev/prettiflow/test-workspace.git",
-        webUrl: "https://app.coregit.dev/prettiflow/test-workspace",
+        org: "ai-agents",
+        cloneUrl: "https://ai-agents:token@api.coregit.dev/ai-agents/test-workspace.git",
+        webUrl: "https://app.coregit.dev/ai-agents/test-workspace",
       };
 
       (coregitService.getRepoInfo as jest.Mock).mockReturnValue(mockInfo);
@@ -263,7 +263,7 @@ describe("Coregit Routes", () => {
     it("should include clone URL in response", async () => {
       const mockInfo = {
         slug: "my-project",
-        org: "prettiflow",
+        org: "ai-agents",
         cloneUrl: expect.stringContaining("coregit.dev"),
         webUrl: expect.stringContaining("app.coregit.dev"),
       };

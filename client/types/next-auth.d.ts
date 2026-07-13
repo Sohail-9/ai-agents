@@ -1,6 +1,6 @@
 import { DefaultSession } from "next-auth";
 
-// Tokens minted by the PrettiFlow auth service, carried through NextAuth.
+// Tokens minted by the AI Agents auth service, carried through NextAuth.
 interface ServiceTokens {
   accessToken?: string;
   refreshToken?: string;

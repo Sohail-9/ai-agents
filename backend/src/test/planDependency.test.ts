@@ -5,7 +5,7 @@
  *   1. TOON parser — DEPS field parsing
  *   2. todoService — createTodosWithDeps + getReadyTodos
  *   3. FINAL ANSWER — TASK=<order> parsing
- *   4. prettiflowMd — placeholder validation
+ *   4. aiAgentsMd — placeholder validation
  *
  * Run: npx tsx src/test/planDependency.test.ts
  */
@@ -118,7 +118,7 @@ function parsePortsFromFinalAnswer(text: string): { frontend?: number; backend?:
   return ports;
 }
 
-// ─── prettiflowMd validation (mirrors ai.ts logic) ────────────
+// ─── aiAgentsMd validation (mirrors ai.ts logic) ────────────
 function isValidPlan(contextContent: string | null | undefined): boolean {
   return !!(contextContent &&
     contextContent.includes("TYPE") &&
@@ -371,9 +371,9 @@ async function testFinalAnswerParser() {
   });
 }
 
-// ─── 4. prettiflowMd Validation ───────────────────────────────
-async function testPrettiflowMdValidation() {
-  await section("prettiflowMd — placeholder + validation", async () => {
+// ─── 4. aiAgentsMd Validation ───────────────────────────────
+async function testAI AgentsMdValidation() {
+  await section("aiAgentsMd — placeholder + validation", async () => {
     assert(
       "Rejects literal placeholder",
       !isValidPlan("FULL_TOON_PLAN_HERE"),
@@ -444,12 +444,12 @@ async function testWaveGrouping() {
 // RUNNER
 // ══════════════════════════════════════════════════════════════
 async function main() {
-  console.log(`\n${BOLD}PrettiFlow — Plan & Dependency Test Suite${RESET}`);
+  console.log(`\n${BOLD}AI Agents — Plan & Dependency Test Suite${RESET}`);
   console.log("─".repeat(50));
 
   await testToonParser();
   await testFinalAnswerParser();
-  await testPrettiflowMdValidation();
+  await testAI AgentsMdValidation();
   await testWaveGrouping();
   await testTodoService();   // DB tests last
 

@@ -1,7 +1,7 @@
-# PrettiFlow Routing System
+# AI Agents Routing System
 
-OpenRouter-like internal LLM API gateway at `api.prettiflow.com/v1/chat`. Users
-create API keys, consume PrettiFlow-deployed models (gpt-5.5, gpt-5.3, codex,
+OpenRouter-like internal LLM API gateway at `api.ai-agents.com/v1/chat`. Users
+create API keys, consume AI Agents-deployed models (gpt-5.5, gpt-5.3, codex,
 opus-4.8), pay per token from a prepaid $ balance. 1 credit = $1.
 
 Status: **planned** (not yet implemented).
@@ -51,7 +51,7 @@ Gaps to build: API-key auth (not JWT), model registry w/ $ pricing,
 ## 3. Architecture
 
 ```
-                          api.prettiflow.com
+                          api.ai-agents.com
                                  │
               ┌──────────────────┴───────────────────┐
               │            nginx / ingress            │
@@ -199,7 +199,7 @@ show full key ONCE → user copies
 
 **Inference (their app):**
 ```
-POST api.prettiflow.com/v1/chat/completions
+POST api.ai-agents.com/v1/chat/completions
   Authorization: Bearer sk-pf-…
   { "model":"anthropic/opus-4.8", "messages":[…], "stream":true }
 → SSE tokens → final usage{cost} → balance debited

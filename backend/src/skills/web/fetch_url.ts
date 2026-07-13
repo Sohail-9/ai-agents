@@ -38,7 +38,7 @@ export async function fetch_url(params: FetchUrlParams): Promise<ToolResult> {
     const res = await fetch(url, {
       signal: controller.signal,
       headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; PrettiflowBot/1.0)",
+        "User-Agent": "Mozilla/5.0 (compatible; AI AgentsBot/1.0)",
         "Accept": "text/html,application/xhtml+xml,application/json,text/plain;q=0.9,*/*;q=0.8",
       },
     });

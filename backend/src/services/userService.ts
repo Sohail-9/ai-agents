@@ -53,7 +53,7 @@ export const userService = {
     }
   },
 
-  // Provision a user from PrettiFlow auth-service identity on first authenticated
+  // Provision a user from AI Agents auth-service identity on first authenticated
   // request (replaces the Clerk user.created webhook). Upserts on the clerkId
   // column (now holds the auth-service UUID) and seeds UserCredits in the same
   // transaction — preserving createOrUpdateUser credit semantics.

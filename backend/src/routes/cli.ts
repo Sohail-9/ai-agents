@@ -15,7 +15,7 @@ const router = Router();
  *
  * Phase 5 (key handout removal): when CLI_ENV_OMIT_KEYS is set, we return an
  * EMPTY config — no provider keys or endpoints leave the server. Flip this only
- * once clients use the server-proxy provider (PRETTIFLOW_USE_SERVER_PROXY), which
+ * once clients use the server-proxy provider (AI_AGENTS_USE_SERVER_PROXY), which
  * needs no local keys. Off by default, so existing direct-mode CLIs are
  * unaffected. The CLI tolerates an empty/partial config (see backend-env.ts).
  */

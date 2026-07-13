@@ -187,7 +187,7 @@ export function parseTodosFromContext(contextMd: string): TodoInput[] {
 }
 
 export function buildUpdateContext(workspace: {
-  prettiflowMd?: string | null;
+  aiAgentsMd?: string | null;
   config?: any;
   sandboxId?: string | null;
   id: string;
@@ -196,7 +196,7 @@ export function buildUpdateContext(workspace: {
   const sandboxId = workspace.sandboxId || undefined;
 
   return [
-    workspace.prettiflowMd || "",
+    workspace.aiAgentsMd || "",
     "",
     buildPlanningEnvironmentContext({
       workspaceId: workspace.id,

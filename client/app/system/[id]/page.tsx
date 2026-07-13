@@ -157,7 +157,7 @@ export default function WorkspacePage() {
 
   const handlePlanModeChange = React.useCallback((mode: boolean) => {
     setIsPlanMode(mode);
-    localStorage.setItem("prettiflow:planMode", String(mode));
+    localStorage.setItem("ai-agents:planMode", String(mode));
   }, [setIsPlanMode]);
 
   const handleMultiAgentChange = React.useCallback((v: boolean) => {
@@ -173,13 +173,13 @@ export default function WorkspacePage() {
   React.useEffect(() => {
     if (planReady) {
       setIsPlanMode(false);
-      localStorage.setItem("prettiflow:planMode", "false");
+      localStorage.setItem("ai-agents:planMode", "false");
     }
   }, [planReady, setIsPlanMode]);
 
   const handleBuildPlan = React.useCallback((msg: string) => {
     setIsPlanMode(false);
-    localStorage.setItem("prettiflow:planMode", "false");
+    localStorage.setItem("ai-agents:planMode", "false");
     setPlanReady(null);
     setViewMode("split");
     sendUserMessage(msg, false, isMultiAgentEnabled);

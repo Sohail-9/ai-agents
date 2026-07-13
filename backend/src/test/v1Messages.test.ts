@@ -11,7 +11,7 @@
  *
  * Usage:
  *   PF_KEY=sk-pf-… npm run test:v1-messages
- *   PF_KEY=sk-pf-… BASE_URL=https://api.prettiflow.com npm run test:v1-messages
+ *   PF_KEY=sk-pf-… BASE_URL=https://api.ai-agents.com npm run test:v1-messages
  *
  * Requires: server up, RouterModel seeded, an ANTHROPIC model enabled, the key's
  * wallet funded, and Azure Claude creds configured server-side.

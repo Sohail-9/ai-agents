@@ -2,7 +2,7 @@
 
 ## Overview
 
-Demo Access is an invite-only feature that allows users to gain temporary or permanent access to PrettiFlow without requiring full account activation. Admins can generate demo access keys, and users can claim them to unlock functionality.
+Demo Access is an invite-only feature that allows users to gain temporary or permanent access to AI Agents without requiring full account activation. Admins can generate demo access keys, and users can claim them to unlock functionality.
 
 ## Base URL
 

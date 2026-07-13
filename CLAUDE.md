@@ -41,7 +41,7 @@ npm run bench:queue            # queue throughput benchmark
 
 ## Architecture
 
-PrettiFlow (renamed to AI Agents) is an AI-powered code assistant that scaffolds and edits full-stack projects inside E2B sandboxes. It's an npm workspaces monorepo with `backend/` (Node.js/Express) and `client/` (Next.js 16 + React 19).
+AI Agents (renamed to AI Agents) is an AI-powered code assistant that scaffolds and edits full-stack projects inside E2B sandboxes. It's an npm workspaces monorepo with `backend/` (Node.js/Express) and `client/` (Next.js 16 + React 19).
 
 ### Request Lifecycle
 

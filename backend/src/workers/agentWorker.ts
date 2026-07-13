@@ -43,7 +43,7 @@ const emitEvent = (eventName: string, payload: Record<string, unknown>, meta: un
 const CONCURRENCY = parseInt(process.env.WORKER_CONCURRENCY || "50", 10);
 export const agentWorkerConnection = createRedisConnection("agent-worker");
 
-/** Lightweight LLM call for fire-and-forget memory tasks (error extraction, prettiflowMd update). */
+/** Lightweight LLM call for fire-and-forget memory tasks (error extraction, aiAgentsMd update). */
 function createInternalLLMCall(): ((systemPrompt: string, userContent: string) => Promise<string>) | null {
   const apiKey = process.env.DASHSCOPE_API_KEY || process.env.QWEN_DASHSCOPE || null;
   if (!apiKey) return null;
@@ -453,24 +453,24 @@ async function processAgentJob(job: Job<AgentJobPayload>) {
           }
         }
 
-        // Phase 4: Update prettiflowMd after successful run
+        // Phase 4: Update aiAgentsMd after successful run
         if (result.success && result.modifiedFiles?.length) {
           try {
             const ws = await workspaceService.getWorkspace(workspaceId);
-            if (ws?.prettiflowMd) {
+            if (ws?.aiAgentsMd) {
               const updated = await updateProjectContext(
-                ws.prettiflowMd,
+                ws.aiAgentsMd,
                 result.summary || '',
                 result.modifiedFiles || [],
                 llmCall,
               );
               if (updated) {
-                await workspaceService.updatePrettiflow(workspaceId, updated);
-                console.log(`[AgentWorker] Updated prettiflowMd for workspace ${workspaceId}`);
+                await workspaceService.updateAI Agents(workspaceId, updated);
+                console.log(`[AgentWorker] Updated aiAgentsMd for workspace ${workspaceId}`);
               }
             }
           } catch (err) {
-            console.error("[AgentWorker] prettiflowMd update failed:", (err as Error).message);
+            console.error("[AgentWorker] aiAgentsMd update failed:", (err as Error).message);
           }
         }
       })();

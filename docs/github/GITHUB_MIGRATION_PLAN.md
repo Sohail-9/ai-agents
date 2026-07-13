@@ -2,7 +2,7 @@
 
 ## Background
 
-Prettiflow deployments start with `git clone $GIT_URL` in both
+AI Agents deployments start with `git clone $GIT_URL` in both
 `fargate-entrypoint.sh` (frontend/backend build) and `runner-entrypoint.sh`
 (persistent backend EC2 runner). Previously `GIT_URL` was a Coregit URL with
 credentials embedded: `https://org:COREGIT_API_KEY@api.coregit.dev/org/repo.git`.
@@ -197,14 +197,14 @@ GITHUB_WORKSPACE_ORG=
 
 ---
 
-## Core Backend Changes (prettiflow-core/backend)
+## Core Backend Changes (ai-agents-core/backend)
 
 These are not infra-repo changes but must ship before or with the infra changes
 to avoid broken deployments.
 
 ### Where to find the deploy trigger
 
-Search for `POST` calls to the infra deploy endpoint in `prettiflow-core/backend`:
+Search for `POST` calls to the infra deploy endpoint in `ai-agents-core/backend`:
 ```
 grep -r "infra\|INFRA_URL\|deploy-orchestrator\|/deploy" backend/src --include="*.ts"
 ```
@@ -216,7 +216,7 @@ authenticated GitHub URL instead of a Coregit URL.
 
 **Two workspace cases:**
 
-#### Case A — Workspace with `githubConnected = true` (Prettiflow-managed repo)
+#### Case A — Workspace with `githubConnected = true` (AI Agents-managed repo)
 
 ```typescript
 import { createAppAuth } from "@octokit/auth-app";

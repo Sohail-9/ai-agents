@@ -301,7 +301,7 @@ describe("Coregit Service", () => {
     it("should use org from environment or default", () => {
       const result = coregitService.getRepoInfo("test");
 
-      // Org should default to "prettiflow" or use env variable
+      // Org should default to "ai-agents" or use env variable
       expect(result.org).toBeDefined();
     });
   });

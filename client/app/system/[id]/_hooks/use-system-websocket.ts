@@ -60,7 +60,7 @@ export function useSystemWebSocket({
     const [isMultiAgentEnabled, setIsMultiAgentEnabled] = React.useState(false);
     const isMultiAgentEnabledRef = React.useRef(false);
     React.useEffect(() => {
-        const planMode = localStorage.getItem("prettiflow:planMode") !== "false";
+        const planMode = localStorage.getItem("ai-agents:planMode") !== "false";
         setIsPlanMode(planMode);
         isPlanModeRef.current = planMode;
         const multiAgent = localStorage.getItem("pf:multiAgent") === "true";
@@ -161,7 +161,7 @@ export function useSystemWebSocket({
         wsRef.current = socket;
 
         socket.onopen = () => {
-            console.log("[WS] Connected to PrettiFlow backend");
+            console.log("[WS] Connected to AI Agents backend");
             setStatus("open");
             retryCountRef.current = 0;
             authOkRef.current = false;
@@ -274,7 +274,7 @@ export function useSystemWebSocket({
                             message: idea,
                             framework: framework,
                             planMode: typeof window !== "undefined"
-                                ? localStorage.getItem("prettiflow:planMode") !== "false"
+                                ? localStorage.getItem("ai-agents:planMode") !== "false"
                                 : true,
                             ...(initialImageIds.length ? { imageIds: initialImageIds } : {}),
                         },

@@ -1,14 +1,14 @@
-# Authentication Plan — Clerk → PrettiFlow Auth Service + NextAuth
+# Authentication Plan — Clerk → AI Agents Auth Service + NextAuth
 
-**Goal:** remove Clerk and authenticate through the **PrettiFlow custom auth service**
-(`https://auth.prettiflow.com`, API in [`auth-api.md`](./auth-api.md)), using **NextAuth v5
+**Goal:** remove Clerk and authenticate through the **AI Agents custom auth service**
+(`https://auth.ai-agents.com`, API in [`auth-api.md`](./auth-api.md)), using **NextAuth v5
 (Auth.js)** in the Next.js client purely as the **session layer**.
 
 **Division of responsibility (the core idea):**
 
 | Layer                  | Owner                   | Responsibility                                                                                                                                                                                      |
 | ---------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Identity authority** | PrettiFlow auth service | Credentials check, password, OTP, email verify, Google OAuth, **mints RS256 access + refresh tokens**, owns the canonical user record. The _source of truth_.                                       |
+| **Identity authority** | AI Agents auth service | Credentials check, password, OTP, email verify, Google OAuth, **mints RS256 access + refresh tokens**, owns the canonical user record. The _source of truth_.                                       |
 | **Session layer**      | NextAuth (client)       | Wraps the service. Holds the service's tokens inside an encrypted httpOnly session cookie, exposes `useSession()`/`auth()`, handles silent refresh, route gating. **Mints no identity of its own.** |
 | **Resource authority** | Express backend         | Verifies the _service's_ access token via JWKS (`res.locals.userId = sub`). Unchanged contract.                                                                                                     |
 
@@ -28,8 +28,8 @@ Companion docs:
 
 ```
                           ┌───────────────────────────────────┐
-                          │   PrettiFlow Auth Service          │
-                          │   https://auth.prettiflow.com      │
+                          │   AI Agents Auth Service          │
+                          │   https://auth.ai-agents.com      │
                           │   - password / OTP / email verify  │
    (3) /signin,/refresh   │   - Google OAuth                   │
    ┌─────────────────────►│   - mints RS256 access + refresh   │◄── source of truth
@@ -80,7 +80,7 @@ Accepted cost (vs. the thin-context approach in `auth-update.md` §6 Option A):
 
 ## 3. Open Decisions (assumptions in bold)
 
-1. **Separate service vs merged** → **Separate** deployable at `https://auth.prettiflow.com`. Backend
+1. **Separate service vs merged** → **Separate** deployable at `https://auth.ai-agents.com`. Backend
    verifies via JWKS. (Same as `auth-update.md` §2.)
 2. **Shared Postgres `User` table** → **Separate DBs.** Backend lazily provisions its local `User`
    from token claims / `GET /me` (§4.2).
@@ -123,7 +123,7 @@ The service emits no `user.created` webhook. Provision lazily on first authentic
   `createOrUpdateUser` credit semantics).
 - Call it from a thin `loadUser` middleware after `requireAuth`. The access token carries only
   `sub` (userId) + `sessionId` — **no email/name claims** (service `req.auth = {userId, sessionId}`).
-  So provisioning always needs one `GET https://auth.prettiflow.com/api/auth/me` call (returns
+  So provisioning always needs one `GET https://auth.ai-agents.com/api/auth/me` call (returns
   `{ user: { id, email, firstName, lastName, ... } }`), cached on first provision.
 - Delete `POST /api/webhooks/clerk` (keep `webhooks.ts` only for non-Clerk webhooks).
 
@@ -137,7 +137,7 @@ Currently trusts client-sent `userId` unverified (`CLERK_AUTH.md` §4). Client n
 
 | Action                | Var                                                                                                                                                                                                                                                                      |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Add                   | `AUTH_JWKS_URL=https://auth.prettiflow.com/.well-known/jwks.json`, `AUTH_ISSUER` (**required** — service enforces it), `AUTH_AUDIENCE` (**required** — must be the _access-token_ audience, not the OAuth/CLI-state one), `AUTH_SERVICE_URL=https://auth.prettiflow.com` |
+| Add                   | `AUTH_JWKS_URL=https://auth.ai-agents.com/.well-known/jwks.json`, `AUTH_ISSUER` (**required** — service enforces it), `AUTH_AUDIENCE` (**required** — must be the _access-token_ audience, not the OAuth/CLI-state one), `AUTH_SERVICE_URL=https://auth.ai-agents.com` |
 | Remove (post-cutover) | `CLERK_SECRET_KEY`, `CLERK_WEBHOOK_SECRET`                                                                                                                                                                                                                               |
 | Keep                  | `INFRA_JWT_SECRET`                                                                                                                                                                                                                                                       |
 
@@ -157,7 +157,7 @@ cd client && npm i next-auth@beta   # Auth.js v5
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-const AUTH = process.env.AUTH_SERVICE_URL!; // https://auth.prettiflow.com
+const AUTH = process.env.AUTH_SERVICE_URL!; // https://auth.ai-agents.com
 const SKEW = 30_000; // refresh 30s before expiry
 
 async function refresh(refreshToken: string) {
@@ -270,7 +270,7 @@ Do **not** add NextAuth's own Google provider — that would be a second identit
 service's Google flow into a NextAuth session:
 
 1. "Continue with Google" button → browser navigates to
-   `GET https://auth.prettiflow.com/api/auth/google?redirectTo=/auth/oauth-landing`.
+   `GET https://auth.ai-agents.com/api/auth/google?redirectTo=/auth/oauth-landing`.
 2. Service completes Google, sets its `pf_session` httpOnly cookie, redirects to the client
    `/auth/oauth-landing`.
 3. `/auth/oauth-landing` (client) calls `POST {AUTH}/api/auth/refresh` with `credentials:"include"`
@@ -350,10 +350,10 @@ Introduce `authFetch()` once (settings page already has a local version):
 
 - **NextAuth session cookie** is same-origin to the Next app — no cross-site issue.
 - **Service `pf_session` cookie** is only needed for the Google bridge (§5.2 step 3). For the
-  browser to send it cross-site to `auth.prettiflow.com`:
+  browser to send it cross-site to `auth.ai-agents.com`:
   - service CORS allows the client origin with `credentials: true`;
   - the landing fetch uses `credentials: "include"`;
-  - `pf_session` set with `SameSite=None; Secure` and a parent domain (`.prettiflow.com`) shared by
+  - `pf_session` set with `SameSite=None; Secure` and a parent domain (`.ai-agents.com`) shared by
     client and auth — **or** proxy `/api/auth/*` through the Next app so it is same-origin.
 - Set `AUTH_SECRET` (NextAuth JWE key) in `client/.env`. Add `AUTH_SERVICE_URL`.
 
@@ -361,7 +361,7 @@ Introduce `authFetch()` once (settings page already has a local version):
 
 | Action | Var                                                                                         |
 | ------ | ------------------------------------------------------------------------------------------- |
-| Add    | `AUTH_SECRET`, `AUTH_SERVICE_URL=https://auth.prettiflow.com`, `NEXTAUTH_URL` (prod origin) |
+| Add    | `AUTH_SECRET`, `AUTH_SERVICE_URL=https://auth.ai-agents.com`, `NEXTAUTH_URL` (prod origin) |
 | Remove | `NEXT_PUBLIC_CLERK_*`, `CLERK_SECRET_KEY`                                                   |
 
 ---

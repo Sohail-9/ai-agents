@@ -72,7 +72,7 @@ function SignInForm() {
         <div className="relative z-10 mt-auto flex flex-col items-center px-8 pb-8 text-center xl:px-10 xl:pb-10">
           <img
             src="/logos/logoname_dark.svg"
-            alt="PrettiFlow"
+            alt="AI Agents"
             className="h-7 w-[120px]"
           />
           <h2 className="mt-6 text-[28px] font-medium leading-tight text-white xl:text-[32px]">

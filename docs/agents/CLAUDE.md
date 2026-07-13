@@ -38,7 +38,7 @@ npm run test:agent-lock
 
 ## Architecture
 
-PrettiFlow is an AI-powered code assistant that scaffolds and edits full-stack projects inside E2B sandboxes. It's an npm workspaces monorepo with `backend/` (Node.js/Express) and `client/` (Next.js 16 + React 19).
+AI Agents is an AI-powered code assistant that scaffolds and edits full-stack projects inside E2B sandboxes. It's an npm workspaces monorepo with `backend/` (Node.js/Express) and `client/` (Next.js 16 + React 19).
 
 ### Request Lifecycle
 

@@ -8,7 +8,7 @@
 
 ## EXECUTIVE SUMMARY
 
-The PrettiFlow architecture **cannot realistically meet a sub-2-second startup target** with the current design. The system violates fundamental queueing principles by bundling fast-path (request acceptance, job enqueue) with slow-path operations (sandbox creation, LLM calls, todo creation) into single monolithic jobs.
+The AI Agents architecture **cannot realistically meet a sub-2-second startup target** with the current design. The system violates fundamental queueing principles by bundling fast-path (request acceptance, job enqueue) with slow-path operations (sandbox creation, LLM calls, todo creation) into single monolithic jobs.
 
 ### Root Cause
 **Job Granularity Problem:** A single `agent-run` job monopolizes a worker for 30 seconds to 15+ minutes. With only 5 workers (WORKER_CONCURRENCY=5), any moderate concurrent load (3-5 simultaneous requests) causes 5-10+ second queue waits before a worker even *picks up* the job.
@@ -176,7 +176,7 @@ T+20-100ms: Prepare planning context (framework, language, database)
           
 T+100-200ms: imageService.getBytes() if images present
           
-T+200-1500ms: ai.processPrompt() → LLM call to generate prettiflow.md
+T+200-1500ms: ai.processPrompt() → LLM call to generate ai-agents.md
             └─ BLOCKING LLM CALL (~500-1000ms for response)
             └─ No parallelization possible
           
@@ -189,13 +189,13 @@ T+1500-6500ms: SandboxManager.openAndInit()
           
 T+6500-6600ms: workspaceService.updateSandboxId() — DB update
           
-T+6600-6700ms: workspaceService.updatePrettiflow() — DB update
+T+6600-6700ms: workspaceService.updateAI Agents() — DB update
           
 T+6700-6800ms: workspaceService.linkSessionToWorkspace() — DB update
           
 T+6800-7000ms: emit("WORKSPACE_READY")
           
-T+7000-7200ms: Create todos from prettiflow.md
+T+7000-7200ms: Create todos from ai-agents.md
           
 T+7200-7300ms: Enqueue agent-run job to agentQueue
             └─ This is where AGENT execution actually begins!
@@ -252,7 +252,7 @@ T+1500-1700ms: setupQueue.add()
 T+1700-2000ms: Setup job in queue, waiting for setupWorker availability
 T+2000-3000ms: setupWorker picks up (CONCURRENCY=3, possibly queue wait)
 T+3000-3100ms: Process setup job initialization
-T+3100-3600ms: LLM call to generate prettiflow.md (BLOCKING in setup worker)
+T+3100-3600ms: LLM call to generate ai-agents.md (BLOCKING in setup worker)
 T+3600-9500ms: Sandbox creation
               └─ Template download: 1500-5000ms
               └─ Docker + init: 500-1500ms
@@ -466,19 +466,19 @@ export const enrollWorker = new Worker("enroll", async (job) => {
 export const bootstrapWorker = new Worker("bootstrap", async (job) => {
   const { workspaceId, framework, message } = job.data;
   
-  // 1. Generate prettiflow.md (LLM call)
-  const prettiflowMd = await ai.processPrompt(...);
+  // 1. Generate ai-agents.md (LLM call)
+  const aiAgentsMd = await ai.processPrompt(...);
   
   // 2. Create sandbox (2-6s, blocking but unavoidable)
   const { sandboxId } = await SandboxManager.getInstance().openAndInit({
-    prettiflowMd, framework, ...
+    aiAgentsMd, framework, ...
   });
   
   // 3. Persist sandbox
   await workspaceService.updateSandboxId(workspaceId, sandboxId);
   
   // 4. Create todos
-  const todos = parseTodosFromContext(prettiflowMd);
+  const todos = parseTodosFromContext(aiAgentsMd);
   for (const todo of todos) {
     await todoService.createTodo({ workspaceId, ...todo });
   }
@@ -688,7 +688,7 @@ Load Balancer
 # docker-compose.yml or k8s deployment
 services:
   app:
-    image: prettiflow-backend
+    image: ai-agents-backend
     ports: ["8000:8000"]
     environment:
       - NODE_ENV=production
@@ -697,7 +697,7 @@ services:
       replicas: 1 # Single server instance
   
   agent-worker-1:
-    image: prettiflow-backend
+    image: ai-agents-backend
     command: npm run worker
     environment:
       - WORKER_CONCURRENCY=5
@@ -705,7 +705,7 @@ services:
       replicas: 2 # 2 dedicated worker processes
   
   setup-worker:
-    image: prettiflow-backend
+    image: ai-agents-backend
     command: npm run worker -- --setup-only
     environment:
       - SETUP_WORKER_CONCURRENCY=10
@@ -856,7 +856,7 @@ T+100:  Enroll queue (concurrency=50, instant pickup)
 T+110:  USER_REQUEST_ACCEPTED
 T+130:  Bootstrap job enqueued
 T+500:  Bootstrap worker picks up
-T+1000: LLM call for prettiflow.md
+T+1000: LLM call for ai-agents.md
 T+2000: Sandbox bootstrap begins
 T+6500: Sandbox ready, todos created
 T+6600: Agent job enqueued

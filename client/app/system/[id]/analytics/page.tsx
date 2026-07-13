@@ -264,8 +264,8 @@ const _DEMO_REFERRERS = [
   "", "", "https://www.linkedin.com", "https://news.ycombinator.com",
 ];
 const _DEMO_MESSAGES = [
-  "[Backend] Stopping old task: arn:aws:ecs:ap-south-1:161230904498:task/prettiflow-backends/3a4eb7fb1b7345d7bae8aaa439012982",
-  "[Backend] Starting new deployment for service: prettiflow-api-v2.3.1",
+  "[Backend] Stopping old task: arn:aws:ecs:ap-south-1:161230904498:task/ai-agents-backends/3a4eb7fb1b7345d7bae8aaa439012982",
+  "[Backend] Starting new deployment for service: ai-agents-api-v2.3.1",
   "[Backend] Health check passed — response time 12ms",
   "[Backend] Database query completed in 45ms: SELECT * FROM workspaces WHERE id = $1",
   "[Frontend] Static asset cached: /static/js/main.chunk.js (304 Not Modified)",
@@ -334,9 +334,9 @@ function _demoAnalytics(period: "24h" | "7d" | "30d"): AnalyticsData {
       { path: "/admin/[section]", hits: Math.round(tpv * 0.08) },
     ],
     top_hostnames: [
-      { path: "app.prettiflow.tech", hits: Math.round(tpv * 0.62) },
-      { path: "prettiflow.tech", hits: Math.round(tpv * 0.28) },
-      { path: "docs.prettiflow.tech", hits: Math.round(tpv * 0.10) },
+      { path: "app.ai-agents.tech", hits: Math.round(tpv * 0.62) },
+      { path: "ai-agents.tech", hits: Math.round(tpv * 0.28) },
+      { path: "docs.ai-agents.tech", hits: Math.round(tpv * 0.10) },
     ],
     top_utm: [
       { referrer: "google / organic", hits: Math.round(tv * 0.38) },
@@ -621,8 +621,8 @@ export default function AnalyticsPage() {
     const headers = ["Time", "Method", "Status", "Type", "Host", "Path", "Message", "Latency(ms)", "Country"];
     const rows = filteredLogs.map((l) => {
       const host = DEMO_MODE
-        ? (l.type === "backend" ? "api.prettiflow.tech" : "www.prettiflow.tech")
-        : (l.type === "backend" ? `api-${l.project_id}.prettiflow.com` : `${l.project_id}.prettiflow.com`);
+        ? (l.type === "backend" ? "api.ai-agents.tech" : "www.ai-agents.tech")
+        : (l.type === "backend" ? `api-${l.project_id}.ai-agents.com` : `${l.project_id}.ai-agents.com`);
       return [
         l.timestamp,
         l.method,
@@ -867,8 +867,8 @@ export default function AnalyticsPage() {
                   const is5xx = log.status >= 500;
                   const is4xx = log.status >= 400;
                   const host = DEMO_MODE
-                    ? (log.type === "backend" ? "api.prettiflow.tech" : "www.prettiflow.tech")
-                    : (log.type === "backend" ? `api-${log.project_id}.prettiflow.com` : `${log.project_id}.prettiflow.com`);
+                    ? (log.type === "backend" ? "api.ai-agents.tech" : "www.ai-agents.tech")
+                    : (log.type === "backend" ? `api-${log.project_id}.ai-agents.com` : `${log.project_id}.ai-agents.com`);
                   const d = new Date(log.timestamp);
                   const timeStr = [
                     d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
