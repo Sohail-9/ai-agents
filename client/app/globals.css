@@ -1,0 +1,142 @@
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+@theme {
+  --color-brand-pink: #FF15DC;
+  --color-bg-main: #1C1C1C;
+  --color-bg-sidebar: #1C1C1C;
+  --color-bg-input: #2E2E2E;
+  --color-border-subtle: #2D2D2D;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-display: var(--font-geist-sans), sans-serif;
+  
+  --color-popover: #222222;
+  --color-popover-foreground: #ffffff;
+  --color-accent: rgba(255, 255, 255, 0.05);
+  --color-accent-foreground: #ffffff;
+  --color-border: #3E3D3D;
+  --color-muted-foreground: #a3a3a3;
+  --color-destructive: #ef4444;
+}
+
+:root {
+  --background: #1C1C1C;
+  --foreground: #ededed;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+/* Fallback animations for Radix Primitives if plugin fails */
+@layer utilities {
+  .animate-in {
+    animation-name: enter;
+    animation-duration: 150ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    --tw-enter-opacity: initial;
+    --tw-enter-scale: initial;
+    --tw-enter-translate-x: initial;
+    --tw-enter-translate-y: initial;
+  }
+  .animate-out {
+    animation-name: exit;
+    animation-duration: 150ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    --tw-exit-opacity: initial;
+    --tw-exit-scale: initial;
+    --tw-exit-translate-x: initial;
+    --tw-exit-translate-y: initial;
+  }
+  .fade-in-0 { --tw-enter-opacity: 0; }
+  .fade-out-0 { --tw-exit-opacity: 0; }
+  .zoom-in-95 { --tw-enter-scale: 0.95; }
+  .zoom-out-95 { --tw-exit-scale: 0.95; }
+  .slide-in-from-top-2 { --tw-enter-translate-y: -0.5rem; }
+  .slide-in-from-bottom-2 { --tw-enter-translate-y: 0.5rem; }
+  .slide-in-from-left-2 { --tw-enter-translate-x: -0.5rem; }
+  .slide-in-from-right-2 { --tw-enter-translate-x: 0.5rem; }
+  
+  .bg-brand-pink {
+    background-image: linear-gradient(135deg, #FF15DC 0%, #FFD4F3 100%) !important;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1));
+  }
+}
+@keyframes exit {
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1));
+  }
+}
+
+/* Subtle scrollbar styling for dark theme */
+.scrollbar-subtle {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+.scrollbar-subtle::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-subtle::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  background-clip: content-box;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Shimmer effect for thinking progress bar */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Subtle glow pulse for brand elements */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 21, 220, 0.15); }
+  50% { box-shadow: 0 0 16px rgba(255, 21, 220, 0.3); }
+}
+
+/* Thinking dots animation */
+@keyframes thinkingDots {
+  0%, 20% { opacity: 0.3; }
+  50% { opacity: 1; }
+  80%, 100% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

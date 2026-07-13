@@ -1,0 +1,546 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
+  engineType      = "library"
+}
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [vector]
+}
+
+model User {
+  id                 String         @id @default(cuid())
+  clerkId            String         @unique
+  email              String?        @unique
+  name               String?
+  image              String?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  databases          Database[]
+  githubAccount      GithubAccount?
+  requests           Request[]
+  workspaces         Workspace[]
+  demoKey            DemoKey?
+  ledger             CreditLedger[]
+  creditAccount      UserCredits?
+  payments           Payment[]
+  supportCases       SupportCase[]
+
+  @@index([email])
+}
+
+model Workspace {
+  id               String            @id @default(cuid())
+  name             String
+  prettiflowMd     String?
+  summary          String?
+  status           WorkspaceStatus   @default(ACTIVE)
+  sandboxId        String?
+  port             Int?
+  backendPort      Int?
+  env              Json?
+  config           Json?
+  userId           String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  deletedAt        DateTime?
+  gitUrl           String?
+  databaseUrl      String?
+  isDeleted        Boolean           @default(false)
+  githubConnected  Boolean           @default(false)
+  githubOwner      String?
+  githubRepo       String?
+  githubHeadSha    String?
+  githubTreeSha    String?
+  agentRuns        AgentRun[]
+  database         Database?
+  deployments      Deployment[]
+  memoryEmbeddings MemoryEmbedding[]
+  messages         Message[]
+  images           MessageImage[]
+  requests         Request[]
+  todos            Todo[]
+  snapshots        Snapshot[]
+  supportCases     SupportCase[]
+  user             User              @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  memory           WorkspaceMemory?
+
+  @@index([userId])
+  @@index([userId, createdAt])
+}
+
+model Message {
+  id          String         @id @default(cuid())
+  workspaceId String?
+  sessionId   String?
+  role        MessageRole
+  content     String
+  requestId   String?
+  createdAt   DateTime       @default(now())
+  toolCallId  String?
+  toolCalls   Json?
+  toolName    String?
+  agentLogs   AgentLog[]
+  workspace   Workspace?     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  images      MessageImage[]
+
+  @@index([workspaceId, createdAt])
+  @@index([sessionId, createdAt])
+  @@index([requestId])
+}
+
+model MessageImage {
+  id          String    @id @default(cuid())
+  workspaceId String
+  messageId   String?
+  filename    String
+  mimeType    String
+  sizeBytes   Int
+  width       Int?
+  height      Int?
+  createdAt   DateTime  @default(now())
+  bucketKey   String
+  contentHash String
+  deletedAt   DateTime?
+  message     Message?  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+  @@index([workspaceId, createdAt])
+  @@index([workspaceId, contentHash])
+}
+
+model Todo {
+  id           String     @id @default(cuid())
+  workspaceId  String
+  title        String
+  description  String
+  status       TodoStatus @default(pending)
+  order        Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  dependencies String[]   @default([])
+  workspace    Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, order])
+}
+
+model Request {
+  id              String       @id @default(cuid())
+  workspaceId     String?
+  userId          String
+  sessionId       String
+  requestId       String
+  state           RequestState
+  originalMessage String
+  answers         Json?
+  resolvedIntent  Json?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  user            User         @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  workspace       Workspace?   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, requestId])
+  @@index([workspaceId, createdAt])
+  @@index([sessionId, createdAt])
+}
+
+model GithubAccount {
+  id          String   @id @default(cuid())
+  clerkUserId String   @unique
+  accessToken String
+  username    String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [clerkUserId], references: [clerkId], onDelete: Cascade)
+}
+
+model Deployment {
+  id            String           @id @default(cuid())
+  workspaceId   String
+  type          DeploymentType
+  status        DeploymentStatus
+  config        Json?
+  env           Json?
+  mainDir       String?
+  cloudfrontUrl String?
+  previewUrl    String?
+  startedAt     DateTime?
+  completedAt   DateTime?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  workspace     Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  DeploymentLog DeploymentLog[]
+
+  @@index([workspaceId, createdAt])
+}
+
+model DeploymentLog {
+  id           String     @id @default(cuid())
+  deploymentId String
+  type         String
+  message      String
+  timestamp    DateTime?
+  createdAt    DateTime   @default(now())
+  Deployment   Deployment @relation(fields: [deploymentId], references: [id], onDelete: Cascade)
+
+  @@index([deploymentId, createdAt])
+}
+
+model AgentLog {
+  id          String   @id @default(cuid())
+  messageId   String
+  workspaceId String
+  agentName   String
+  type        String
+  logMessage  String
+  tool        String?
+  timestamp   BigInt
+  createdAt   DateTime @default(now())
+  message     Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+  @@index([workspaceId, createdAt])
+}
+
+model Database {
+  id          String    @id @default(cuid())
+  workspaceId String    @unique
+  userId      String
+  url         String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+
+model AgentRun {
+  id          String         @id @default(cuid())
+  workspaceId String
+  status      AgentRunStatus @default(RUNNING)
+  summary     String?
+  port        Int?
+  backendPort Int?
+  planMode    Boolean        @default(false)
+  startedAt   DateTime       @default(now())
+  completedAt DateTime?
+  workspace   Workspace      @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, startedAt])
+}
+
+model WorkspaceMemory {
+  id          String    @id @default(cuid())
+  workspaceId String    @unique
+  details     Json      @default("{}")
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+}
+
+model CreditLedger {
+  id         String   @id @default(cuid())
+  userId     String
+  delta      Int
+  deltaUsd   Decimal? @db.Decimal(12, 6) // router spend in USD (delta stays 0 for router rows)
+  source     String?  // "agent" | "router"
+  reason     String   // "agent_run" | "agent_run_capped" | "manual_refund" | "topup" | "v1_routing"
+  agentRunId String?
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+
+  // Prevent duplicate billing for same agentRunId (idempotency)
+  @@unique([userId, agentRunId])
+  @@index([userId, createdAt])
+}
+
+
+model MemoryEmbedding {
+  id          String                 @id @default(cuid())
+  workspaceId String
+  category    String
+  key         String
+  content     String
+  embedding   Unsupported("vector")?
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  workspace   Workspace              @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, category, key])
+  @@index([workspaceId])
+}
+
+model DemoKey {
+  id        String              @id @default(cuid())
+  key       String              @unique
+  status    DemoAccessKeyStatus @default(UNCLAIMED)
+  userId    String?             @unique
+  createdAt DateTime            @default(now())
+  claimedAt DateTime?
+  user      User?               @relation(fields: [userId], references: [clerkId])
+
+  @@index([status])
+}
+
+model UserCredits {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  credits           Int       @default(1000)
+  reservedCredits   Int       @default(0)
+  routerBalanceUsd  Decimal?  @default(0) @db.Decimal(12, 6) // router sub-credit spend carry (0..1 accrued USD); whole credits settle against `credits`. 1 credit = $1
+  reservedExpiresAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              User      @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Snapshot {
+  id            String    @id @default(cuid())
+  workspaceId   String
+  agentRunId    String?
+  files         Json
+  commitMessage String
+  githubSha     String?
+  createdAt     DateTime  @default(now())
+  workspace     Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, createdAt])
+  @@index([workspaceId, githubSha])
+}
+model SupportCase {
+  id              String              @id @default(cuid())
+  caseNumber      Int                 @unique @default(autoincrement())
+  userId          String
+  title           String?
+  status          SupportCaseStatus   @default(OPEN)
+  priority        SupportCasePriority @default(MEDIUM)
+  workspaceId     String?
+  escalatedAt     DateTime?
+  escalationNote  String?
+  emailSentAt     DateTime?
+  resolvedAt      DateTime?
+  resolution      String?
+  userRating      Int?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  messages        SupportMessage[]
+  user            User                @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+  workspace       Workspace?          @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status])
+  @@index([workspaceId])
+}
+
+model SupportMessage {
+  id        String              @id @default(cuid())
+  caseId    String
+  role      SupportMessageRole
+  content   String
+  toolCalls Json?
+  createdAt DateTime            @default(now())
+  case      SupportCase         @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId])
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  userId           String
+  planId           PlanType
+  idempotencyKey   String?       @unique
+  transactionId    String?       @unique
+  cost             Int
+  currency         String        @default("USD")
+  status           PaymentStatus @default(PENDING)
+  paymentMethodId  String?
+  metadata         Json?
+  completedAt      DateTime?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  user             User          @relation(fields: [userId], references: [clerkId], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([transactionId])
+  @@index([idempotencyKey])
+  @@index([status])
+}
+
+enum WorkspaceStatus {
+  ACTIVE
+  ARCHIVED
+  FAILED
+  GENERATING
+  READY
+}
+
+enum MessageRole {
+  user
+  assistant
+  system
+  tool
+}
+
+enum TodoStatus {
+  pending
+  in_progress
+  completed
+  blocked
+}
+
+enum RequestState {
+  INIT
+  NEEDS_CLARIFICATION
+  AWAITING_CONFIRMATION
+  CONFIRMED
+  RUNNING
+  COMPLETED
+}
+
+enum DeploymentType {
+  FRONTEND
+  BACKEND
+}
+
+enum DeploymentStatus {
+  QUEUED
+  BUILDING
+  DEPLOYING
+  SUCCESS
+  FAILED
+}
+
+enum AgentRunStatus {
+  RUNNING
+  SUCCESS
+  FAILED
+}
+
+enum DemoAccessKeyStatus {
+  UNCLAIMED
+  CLAIMED
+  REVOKED
+}
+
+enum SupportCaseStatus {
+  OPEN
+  RESOLVED
+  CLOSED
+  ESCALATED
+}
+
+enum SupportCasePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SupportMessageRole {
+  USER
+  AGENT
+  SYSTEM
+}
+
+enum PlanType {
+  STANDARD
+  PRO
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+  CANCELLED
+}
+
+// ── Router (OpenAI-compatible LLM gateway at /v1) ──────────────────────────
+
+enum ApiKeyStatus {
+  ACTIVE
+  REVOKED
+}
+
+model ApiKey {
+  id         String       @id @default(cuid())
+  userId     String
+  name       String
+  keyPrefix  String // "sk-pf-abc1…" shown in UI
+  keyHash    String       @unique // sha256(fullKey), raw key never stored
+  last4      String
+  status     ApiKeyStatus @default(ACTIVE)
+  spendLimit Decimal?     @db.Decimal(12, 6) // v2 only, nullable
+  spent      Decimal      @default(0) @db.Decimal(12, 6)
+  lastUsedAt DateTime?
+  createdAt  DateTime     @default(now())
+
+  @@index([userId])
+}
+
+model RouterModel {
+  id               String  @id // e.g. "openai/gpt-5.5"
+  displayName      String
+  provider         String // OPENAI | ANTHROPIC
+  upstreamModel    String // actual SDK model string
+  inputPricePer1M  Decimal @db.Decimal(12, 6) // USD
+  outputPricePer1M Decimal @db.Decimal(12, 6)
+  enabled          Boolean @default(true)
+}
+
+model UsageRecord {
+  id               String   @id @default(cuid())
+  userId           String
+  apiKeyId         String
+  modelId          String
+  requestId        String   @unique
+  promptTokens     Int
+  completionTokens Int
+  cost             Decimal  @db.Decimal(12, 6)
+  status           String // success | error
+  latencyMs        Int
+  createdAt        DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([apiKeyId])
+}
+
+// ── CLI quota (time-windowed token allowance) ────────────────────────────────
+// Separate from credits (money): quota is a token allowance per rolling window
+// that RESETS. A turn must pass both credits AND every applicable quota window.
+// Enforcement is inert until at least one enabled policy row exists.
+
+// The rule. Multiple may apply to one user (multi-limit); all must pass.
+model CliQuotaPolicy {
+  id          String   @id @default(cuid())
+  scope       String // GLOBAL | PLAN | USER
+  planTier    String? // set when scope=PLAN
+  userId      String? // set when scope=USER (per-user override)
+  name        String
+  windowHours Int      @default(24) // dynamic: 12 / 24 / 48 / any
+  tokenLimit  Int // tokens allowed per window
+  modelId     String? // optional: rule applies only to this model
+  priority    Int      @default(0) // USER > PLAN > GLOBAL on conflict
+  enabled     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([scope, enabled])
+}
+
+// Running window state: one live window per (user, policy). Resets on roll.
+model CliQuotaUsage {
+  id            String   @id @default(cuid())
+  userId        String
+  policyId      String
+  windowStartAt DateTime
+  windowEndAt   DateTime
+  tokensUsed    Int      @default(0)
+  updatedAt     DateTime @updatedAt
+
+  @@unique([userId, policyId])
+  @@index([userId])
+}
