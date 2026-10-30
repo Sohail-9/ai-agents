@@ -1,8 +1,6 @@
 # AI Agents
 
-<p align="center">
-  <img width="100%" alt="AI Agents Banner" src="docs/images/banner.png" />
-</p>
+
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-ISC-blue.svg" alt="ISC License" /></a>
