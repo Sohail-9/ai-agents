@@ -219,5 +219,5 @@ This project is licensed under the ISC License. See [LICENSE](LICENSE) for detai
 ---
 
 <p align="center">
-  Made with 🔥 Passion in San Francisco
+  Made with 🔥 Passion Sohail
 </p>
